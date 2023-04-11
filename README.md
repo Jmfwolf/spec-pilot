@@ -1,31 +1,27 @@
 # OAS-maker
 
-This software helps you manage your OpenAPI specification files by providing a set of utilities for creating, updating, and removing assets such as schemas, resources, parameters, and responses. It also helps you maintain a clean and organized file structure, and build assets from templates.
+This software simplifies the creation and management of customized OpenAPI specifications for specific tools and platforms. It provides a set of utilities for creating, updating, and removing assets such as schemas, resources, parameters, and responses. The software also helps you maintain a clean and organized file structure and build assets from templates.
 
-- [OAS-maker](#oas-maker)
-  - [Prerequisites](#prerequisites)
-  - [Usage](#usage)
-    - [Initializing a Project](#initializing-a-project)
-    - [Creating an Asset](#creating-an-asset)
-    - [Inserting an Asset into the Index](#inserting-an-asset-into-the-index)
-    - [Removing an Asset](#removing-an-asset)
-    - [Removing an Entry from the Index](#removing-an-entry-from-the-index)
-    - [Building an Asset from a Template](#building-an-asset-from-a-template)
-    - [Building a Path from a Resource](#building-a-path-from-a-resource)
-  - [Functions](#functions)
-  - [License](#license)
+## Project Goal
+
+The primary objective of this project is to simplify the creation and management of customized OpenAPI specifications for specific tools and platforms. In various scenarios, a single OpenAPI specification may not be suitable for multiple tools due to differences in requirements, constraints, or features.
+
+For instance, when using [Terrraform-Provider-OpenAPI](https://github.com/dikhan/terraform-provider-openapi) to manage infrastructure alongside [API Gateway on AWS](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-import-api.html) for API deployment, the same OpenAPI specification might not be compatible with both tools. This could be due to differences in supported fields, required extensions, or other tool-specific expectations.
+
+This software aims to address such issues by providing a foundation for creating a "proto-build" of your service. The proto-build serves as a starting point for generating tool-specific OpenAPI specifications tailored to the requirements of each target platform. This approach enables seamless integration with various tools, ensuring compatibility and promoting best practices for API development.
+
+By using this software, engineers can maintain a single source of truth for their API specifications while generating and managing customized versions for different tools and environments, streamlining development, and reducing the risk of inconsistencies across platforms.
 
 ## Prerequisites
 
-Bash shell
-yq command-line processor for YAML (version 4.x)
-mustache command-line tool for rendering mustache templates
+- [yq](https://github.com/mikefarah/yq) command-line processor for YAML (version 4.x)
+- [mustache](http://mustache.github.io/) command-line tool for rendering mustache templates
 
 ## Usage
 
 To use this script, first clone the repository, and navigate to the directory containing the script. Make sure the script is executable by running:
 
-```bash
+```sh
 
 chmod +x utilities.sh
 ```
@@ -34,7 +30,7 @@ chmod +x utilities.sh
 
 To initialize a new project, run the following command:
 
-```bash
+```sh
 
 ./utilities.sh init_project <project_name>
 ```
@@ -45,7 +41,7 @@ This will create the initial file structure and indexes for your project.
 
 To create a new asset, run the following command:
 
-```bash
+```sh
 
 ./utilities.sh create_asset <asset_name>
 ```
@@ -56,68 +52,60 @@ This will create a new YAML file in the appropriate directory.
 
 To insert an asset into the index, run the following command:
 
-```bash
+```sh
 
 ./utilities.sh insert_into_index <asset_name>
 ```
 
-This will update the index file of the appropriate directory with a reference to the new asset.
+This will insert the specified asset into the appropriate index file.
+
+### Removing an Asset from the Index
+
+To remove an asset from the index, run the following command:
+
+```sh
+
+./utilities.sh remove_from_index <asset_name>
+```
+
+This will remove the specified asset from the index file.
 
 ### Removing an Asset
 
 To remove an asset, run the following command:
 
-```bash
+```sh
 
 ./utilities.sh remove_asset <asset_name>
 ```
 
-This will remove the specified asset and update the index file accordingly.
+This will delete the specified asset and remove it from the index.
 
-### Removing an Entry from the Index
+### Building Assets from Templates
 
-To remove an entry from the index without deleting the associated asset, run the following command:
+To build assets from templates, run the following command:
 
-```bash
+```sh
 
-./utilities.sh remove_from_index <entry_name>
+./utilities.sh build_from_template <input_file> <template_file> <output_directory> <output_asset_name>
 ```
 
-### Building an Asset from a Template
+This will use the specified input file and template file to create a new asset in the specified output directory.
 
-To build an asset from a template, run the following command:
+### Building Paths from Resources
 
-```bash
+To build paths from resources, run the following command:
 
-./utilities.sh build_from_template <input_file> <template_file> <directory_name> <asset_name>
-```
-
-This will use the provided input data and mustache template to create a new asset in the specified directory.
-
-### Building a Path from a Resource
-
-To build a path from a resource YAML file, run the following command:
-
-```bash
-
+```sh
 ./utilities.sh path_builder <resource_name>
 ```
 
-This will create a new path YAML file based on the resource data and the templates/path.mustache template.
-
-## Functions
-
-The script provides the following functions:
-
-- check_params: Checks if any parameters were passed to a function.
-- insert_into_index: Inserts an asset into the index.
-- create_asset: Creates a new asset file.
-- remove_from_index: Removes an entry from the index.
-- remove_asset: Removes an asset and its entry from the index.
-- init_project: Initializes a new project with the required file structure and indexes.
-- build_from_template: Builds an asset from a user input file and a mustache template.
-- path_builder: Creates a path asset from a resource YAML file.
+This will generate a path file from the specified resource YAML file, using the provided templates/path.mustache template, and save it in the resources directory with a .yml extension.
 
 ## License
 
-This project is open-source and available under the GNU General Public License v3.0.
+This project is licensed under the [GNU General Public License v3.0.](https://www.gnu.org/licenses/gpl-3.0.html) See the LICENSE file for details.
+
+## Acknowledgments
+
+Special thanks to the creators of the yq and mustache command-line tools, which are essential components of this software.

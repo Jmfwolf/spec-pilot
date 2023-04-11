@@ -49,7 +49,7 @@ function init_project {
     cd $1
     touch schemas/_index.yml resources/_index.yml parameters/_index.yml responses/_index.yml
 }
-
+# Need testing!
 function build_from_template {
     # use user input data as file and appropriate mustache template
     # to create new asset 
@@ -60,7 +60,7 @@ function build_from_template {
     ASSET="$4"
     yq -j . $FILE | mustache $TEMPLATE - > $DIR_NAME/$ASSET
 }
-
+# Need testing!
 function path_builder {
     # Create Path from resource yaml
     check_params 1 "$@"
