@@ -2,6 +2,19 @@
 
 This software helps you manage your OpenAPI specification files by providing a set of utilities for creating, updating, and removing assets such as schemas, resources, parameters, and responses. It also helps you maintain a clean and organized file structure, and build assets from templates.
 
+- [OAS-maker](#oas-maker)
+  - [Prerequisites](#prerequisites)
+  - [Usage](#usage)
+    - [Initializing a Project](#initializing-a-project)
+    - [Creating an Asset](#creating-an-asset)
+    - [Inserting an Asset into the Index](#inserting-an-asset-into-the-index)
+    - [Removing an Asset](#removing-an-asset)
+    - [Removing an Entry from the Index](#removing-an-entry-from-the-index)
+    - [Building an Asset from a Template](#building-an-asset-from-a-template)
+    - [Building a Path from a Resource](#building-a-path-from-a-resource)
+  - [Functions](#functions)
+  - [License](#license)
+
 ## Prerequisites
 
 Bash shell
