@@ -1,0 +1,28 @@
+properties:
+  createdAt:
+    type: string
+    format: date-time
+    description: Creation timestamp
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Last update timestamp
+    readOnly: true
+  status:
+    type: string
+    description: Status of the resource
+    readOnly: true
+  version:
+    type: integer
+    format: int32
+    description: Version of the resource
+    readOnly: true
+  createdBy:
+    type: string
+    description: User who created the resource
+    readOnly: true
+  lastModifiedBy:
+    type: string
+    description: User who last modified the resource
+    readOnly: true
