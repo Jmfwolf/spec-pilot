@@ -70,3 +70,19 @@ function init_project {
     fi
 }
 
+function build_from_template {
+    # use user input data as file and appropriate mustache template
+    # to create new asset 
+   FILE="$1"
+   TEMPLATE="$2"
+   DIR_NAME="$3"
+   ASSET="$4"
+   yq -j . $FILE | mustache $TEMPLATE - > $DIR_NAME/$ASSET
+}
+
+function path_builder {
+    # Create Path from resource yaml
+   RESOURCE="$1"
+   FILENAME="$RESOURCE.yml"
+   build_from_template "$RESOURCE" "templates/path.mustache" "resources" "$FILENAME"
+}
