@@ -1,0 +1,14 @@
+{{schema-name}}:
+  type: object
+  properties:
+{{#properties}}
+    {{name}}:
+      type: {{type}}
+      description: {{description}}
+{{/properties}}
+  required:
+{{#properties}}
+{{#required}}
+    - {{name}}
+{{/required}}
+{{/properties}}
