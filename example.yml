@@ -1,0 +1,787 @@
+openapi: '3.0.2'
+info:
+  title: MyCampus
+  version: '1.0'
+  description: OpenAPI demonstration example
+  contact:
+    email: jmfwolf@fraktured.space
+servers:
+  - url: https://api.mycampus.local/v1
+components:
+  schemas:
+    id:
+      type: integer
+      description: unique identification number
+      format: int64
+      example: 022576081
+    student:
+      type: object
+      required:
+        - name
+        - birthday
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        name:
+          type: object
+          required:
+            - first
+          properties:
+            first:
+              type: string
+              description: first name
+              example: john
+            last:
+              type: string
+              description: last name
+              example: smith
+        class:
+          type: string
+          enum:
+            - freshmen
+            - sophmore
+            - junior
+            - senior
+        birthday:
+          type: object
+          required:
+            - day
+            - month
+            - year
+          properties:
+            day:
+              type: integer
+              description: day of the month
+              minimum: 1
+              maximum: 31
+              example: 5
+            month:
+              type: integer
+              description: month of the year
+              minimum: 1
+              maximum: 12
+              example: 5
+            year:
+              type: integer
+              description: Year of birth
+              minimum: 1900
+              maximum: 2023
+              example: 2000
+    teacher:
+      type: object
+      required:
+        - id
+        - name
+        - department
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        name:
+          type: object
+          required:
+            - first
+          properties:
+            first:
+              type: string
+              description: first name
+              example: jane
+            last:
+              type: string
+              description: last name
+              example: doe
+        department:
+          type: string
+          description: department name
+          example: Mathematics
+    schedule:
+      type: object
+      required:
+        - id
+        - course_id
+        - teacher_id
+        - classroom_id
+        - start_time
+        - end_time
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        course_id:
+          $ref: "#/components/schemas/id"
+        teacher_id:
+          $ref: "#/components/schemas/id"
+        classroom_id:
+          $ref: "#/components/schemas/id"
+        start_time:
+          type: string
+          description: schedule start time
+          example: "08:00"
+        end_time:
+          type: string
+          description: schedule end time
+          example: "09:00"
+    course:
+      type: object
+      required:
+        - id
+        - name
+        - department
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        name:
+          type: string
+          description: course name
+          example: Calculus
+        department:
+          type: string
+          description: department name
+          example: Mathematics
+    classroom:
+      type: object
+      required:
+        - id
+        - building
+        - room_number
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        building:
+          type: string
+          description: building name
+          example: Science Hall
+        room_number:
+          type: integer
+          description: room number
+          format: int32
+          example: 101
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: Bad request
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 404
+              message:
+                type: string
+                example: Not found
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 401
+              message:
+                type: string
+                example: Unauthorized
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 403
+              message:
+                type: string
+                example: Forbidden
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: unique identification number
+      schema:
+        $ref: '#/components/schemas/id'
+  securitySchemes:
+    campus:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.mycampus.local/v1/oauth/dialog
+          tokenUrl: https://api.mycampus.local/v1/oauth/token
+          scopes:
+            student: Campus Student
+            teacher: Campus Teacher
+            administrator: Campus Administrator
+            clerk: Campus Clerk
+paths:
+  /students:
+    post:
+      summary: Enroll Student
+      description: Create Student
+      operationId: createStudent
+      security:
+        - campus:
+          - administrator
+      tags:
+        - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/student'
+      responses:
+        '201':
+          description: student enrollment success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/student'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /students/{id}:
+    get:
+      summary: Get Student
+      description: Get Student by ID
+      operationId: getStudentById
+      security:
+        - campus:
+          - administrator
+          - clerk
+          - teacher
+          - student
+      tags:
+        - students
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: get student success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/student'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      security:
+        - campus:
+          - administrator
+      summary: Update Student Info
+      description: Update Student
+      operationId: updateStudent
+      parameters:
+        - $ref: '#/components/parameters/id'
+      tags:
+        - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/student'
+      responses:
+        '200':
+          description: student info update success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/student'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete Student Info
+      description: delete Student
+      operationId: deleteStudent
+      security:
+        - campus:
+          - administrator
+      parameters:
+        - $ref: '#/components/parameters/id'
+      tags:
+        - students
+      responses:
+        '204':
+          description: student info delete success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /schedules:
+    post:
+      summary: Add Schedule
+      description: Create a new Schedule
+      operationId: createSchedule
+      security:
+        - campus:
+          - administrator
+      tags:
+        - schedules
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schedule'
+      responses:
+        '201':
+          description: Schedule creation success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schedule'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    get:
+      summary: Get Schedules
+      description: Retrieve all Schedules
+      operationId: getSchedules
+      security:
+        - campus:
+          - administrator
+          - clerk
+      tags:
+        - schedules
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/schedule'
+  /schedules/{id}:
+    get:
+      summary: Get Schedule
+      description: Get Schedule by ID
+      operationId: getScheduleById
+      security:
+        - campus:
+          - administrator
+          - clerk
+      tags:
+        - schedules
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: get Schedule success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schedule'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Update Schedule
+      description: Update Schedule by ID
+      operationId: updateSchedule
+      security:
+        - campus:
+          - administrator
+      tags:
+        - schedules
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schedule'
+      responses:
+        '200':
+          description: Schedule update success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schedule'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete Schedule
+      description: Delete Schedule by ID
+      operationId: deleteSchedule
+      security:
+        - campus:
+          - administrator
+      tags:
+        - schedules
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Schedule delete success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /teachers:
+    post:
+      summary: Add Teacher
+      description: Create a new teacher
+      operationId: createTeacher
+      security:
+        - campus:
+          - administrator
+      tags:
+        - teachers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/teacher'
+      responses:
+        '201':
+          description: teacher creation success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/teacher'
+    get:
+      summary: Get Teachers
+      description: Retrieve all teachers
+      operationId: getTeachers
+      security:
+        - campus:
+          - administrator
+          - clerk
+          - teacher
+          - student
+      tags:
+        - teachers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/teacher'
+  /teachers/{id}:
+    get:
+      summary: Get Teacher
+      description: Get teacher by ID
+      operationId: getTeacherById
+      security:
+        - campus:
+          - administrator
+          - clerk
+      tags:
+        - teachers
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: get teacher success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/teacher'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Update Teacher
+      description: Update teacher by ID
+      operationId: updateTeacher
+      security:
+        - campus:
+          - administrator
+      tags:
+        - teachers
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/teacher'
+      responses:
+        '200':
+          description: teacher update success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/teacher'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete Teacher
+      description: Delete teacher by ID
+      operationId: deleteTeacher
+      security:
+        - campus:
+          - administrator
+      tags:
+        - teachers
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: teacher delete success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /courses:
+    post:
+      summary: Add course
+      description: Create a new course
+      operationId: createCourse
+      security:
+        - campus:
+          - administrator
+      tags:
+        - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/course'
+      responses:
+        '201':
+          description: course creation success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/course'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    get:
+      summary: Get courses
+      description: Retrieve all courses
+      operationId: getCourses
+      security:
+        - campus:
+          - administrator
+          - clerk
+          - teacher
+          - student
+      tags:
+        - courses
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/course'
+  /courses/{id}:
+    get:
+      summary: Get course
+      description: Get course by ID
+      operationId: getCourseById
+      security:
+        - campus:
+          - administrator
+          - clerk
+      tags:
+        - courses
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: get course success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/course'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Update course
+      description: Update course by ID
+      operationId: updateCourse
+      security:
+        - campus:
+          - administrator
+      tags:
+        - courses
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/course'
+      responses:
+        '200':
+          description: course update success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/course'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete course
+      description: Delete course by ID
+      operationId: deleteCourse
+      security:
+        - campus:
+          - administrator
+      tags:
+        - courses
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: course delete success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /classrooms:
+    get:
+      summary: Get Classrooms
+      description: Retrieve all classrooms
+      operationId: getClassrooms
+      security:
+        - campus:
+          - administrator
+          - clerk
+          - teacher
+          - student
+      tags:
+        - classrooms
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/classroom'
+
+  /classrooms/{id}:
+    get:
+      summary: Get Classroom
+      description: Get classroom by ID
+      operationId: getClassroomById
+      security:
+        - campus:
+          - administrator
+          - teacher
+          - clerk
+      tags:
+        - classrooms
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: get classroom success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/classroom'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+tags:
+  - name: students
+  - name: teachers
+  - name: courses
+  - name: classrooms
+  - name: schedules
+
