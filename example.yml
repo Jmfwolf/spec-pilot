@@ -491,6 +491,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/teacher'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
     get:
       summary: Get Teachers
       description: Retrieve all teachers

@@ -1,62 +1,9 @@
-/v{{api-version}}/{{resource-name}}:
-  post:
-    description: Create {{resource-name}}
-    summary: Create {{resource-name}}
-    operationId: create{{resource-name}}
-    requestBody:
-      content:
-        application/json:
-          schema:
-            $ref: "../schemas/_index.yml#/{{resource-name}}"
-      required: true
-    responses:
-      "201":
-        description: "{{resource-name}} creation succeeded"
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/_index.yml#/{{resource-name}}"
-      "400":
-        description: Bad Request
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/_index.yml#/ErrorResponse"
-      "500":
-        description: Internal Server Error
-        content:
-          application/json:
-            schema:
-              $ref: "../schemas/_index.yml#/ErrorResponse"
-
-/v{{api-version}}/{{resource-name}}/{resource-id}:
-    get:
-      description: Get {{resource-name}} by ID
-      summary: Get {{resource-name}} by ID
-      operationId: get{{resource-name}}ById
-      responses:
-        "200":
-          description: "{{resource-name}} found"
-          content:
-            application/json:
-              schema:
-                $ref: "../schemas/_index.yml#/{{resource-name}}"
-        "404":
-          description: "{{resource-name}} not found"
-          content:
-            application/json:
-              schema:
-                $ref: "../schemas/_index.yml#/ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "../schemas/_index.yml#/ErrorResponse"
-    put:
-      description: Update {{resource-name}} by ID
-      summary: Update {{resource-name}} by ID
-      operationId: update{{resource-name}}ById
+paths:
+  /v{{api-version}}/{{resource-name}}:
+    post:
+      description: Create {{resource-name}}
+      summary: Create {{resource-name}}
+      operationId: create{{resource-name}}
       requestBody:
         content:
           application/json:
@@ -64,8 +11,8 @@
               $ref: "../schemas/_index.yml#/{{resource-name}}"
         required: true
       responses:
-        "200":
-          description: "{{resource-name}} update succeeded"
+        "201":
+          description: "{{resource-name}} creation succeeded"
           content:
             application/json:
               schema:
@@ -73,12 +20,6 @@
         "400":
           description: Bad Request
           content:
-          application/json:
-          schema:
-          $ref: "../schemas/_index.yml#/ErrorResponse"
-        "404":
-          description: "{{resource-name}} not found"
-          content:
             application/json:
               schema:
                 $ref: "../schemas/_index.yml#/ErrorResponse"
@@ -88,22 +29,82 @@
             application/json:
               schema:
                 $ref: "../schemas/_index.yml#/ErrorResponse"
-    delete:
-      description: Delete {{resource-name}} by ID
-      summary: Delete {{resource-name}} by ID
-      operationId: delete{{resource-name}}ById
-      responses:
-        "204":
-          description: No Content
-        "404":
-          description: "{{resource-name}} not found"
+
+  /v{{api-version}}/{{resource-name}}/{id}:
+      get:
+        description: Get {{resource-name}} by ID
+        summary: Get {{resource-name}} by ID
+        operationId: get{{resource-name}}ById
+        responses:
+          "200":
+            description: "{{resource-name}} found"
+            content:
+              application/json:
+                schema:
+                  $ref: "../schemas/_index.yml#/{{resource-name}}"
+          "404":
+            description: "{{resource-name}} not found"
+            content:
+              application/json:
+                schema:
+                  $ref: "../schemas/_index.yml#/ErrorResponse"
+          "500":
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: "../schemas/_index.yml#/ErrorResponse"
+      put:
+        description: Update {{resource-name}} by ID
+        summary: Update {{resource-name}} by ID
+        operationId: update{{resource-name}}ById
+        requestBody:
           content:
             application/json:
               schema:
-                $ref: "../schemas/_index.yml#/ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
+                $ref: "../schemas/_index.yml#/{{resource-name}}"
+          required: true
+        responses:
+          "200":
+            description: "{{resource-name}} update succeeded"
+            content:
+              application/json:
+                schema:
+                  $ref: "../schemas/_index.yml#/{{resource-name}}"
+          "400":
+            description: Bad Request
+            content:
             application/json:
-              schema:
-                $ref: "../schemas/_index.yml#/ErrorResponse"
+            schema:
+            $ref: "../schemas/_index.yml#/ErrorResponse"
+          "404":
+            description: "{{resource-name}} not found"
+            content:
+              application/json:
+                schema:
+                  $ref: "../schemas/_index.yml#/ErrorResponse"
+          "500":
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: "../schemas/_index.yml#/ErrorResponse"
+      delete:
+        description: Delete {{resource-name}} by ID
+        summary: Delete {{resource-name}} by ID
+        operationId: delete{{resource-name}}ById
+        responses:
+          "204":
+            description: No Content
+          "404":
+            description: "{{resource-name}} not found"
+            content:
+              application/json:
+                schema:
+                  $ref: "../schemas/_index.yml#/ErrorResponse"
+          "500":
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: "../schemas/_index.yml#/ErrorResponse"

@@ -1,0 +1,53 @@
+responses:
+  BadRequest:
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: Bad request
+  NotFound:
+    description: Not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: Not found
+  Unauthorized:
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 401
+            message:
+              type: string
+              example: Unauthorized
+  Forbidden:
+    description: Forbidden
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 403
+            message:
+              type: string
+              example: Forbidden

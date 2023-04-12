@@ -68,3 +68,7 @@ function path_builder {
     FILENAME="$RESOURCE.yml"
     build_from_template "$RESOURCE" "templates/path.mustache" "resources" "$FILENAME"
 }
+
+function insert_resource_paths {
+    
+}
