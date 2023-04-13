@@ -46,22 +46,23 @@ function init_project {
     # create the initial file structure and indexes
     check_params 1 "$@"
     mkdir -p "$1"/schemas "$1"/resources "$1"/parameters/query "$1"/parameters/path "$1"/responses
-    cd $1
+    cd "$1" || exit
     touch schemas/_index.yml resources/_index.yml parameters/_index.yml responses/_index.yml
 }
-# Need testing!
+
 function build_from_template {
     # use user input data as file and appropriate mustache template
     # to create new asset 
+    # Use Bash Mustache to create 
     check_params 4 "$@"
     FILE="$1"
     TEMPLATE="$2"
     DIR_NAME="$3"
-    ASSET="$4"
-    yq -j . $FILE | mustache $TEMPLATE - > $DIR_NAME/$ASSET
+    FILENAME="$4"
+    yq -j . $FILE | mustache $TEMPLATE - > $DIR_NAME/$FILENAME
 }
-# Need testing!
-function path_builder {
+
+function resource_builder {
     # Create Path from resource yaml
     check_params 1 "$@"
     RESOURCE="$1"
@@ -69,6 +70,61 @@ function path_builder {
     build_from_template "$RESOURCE" "templates/path.mustache" "resources" "$FILENAME"
 }
 
+function response_builder {
+    # Create Response from response yaml
+    check_params 1 "$@"
+    RESPONSE="$1"
+    FILENAME="$RESPONSE.yml"
+    build_from_template "$RESPONSE" "templates/response.mustache" "responses" "$FILENAME"
+}
+
+function parameter_builder {
+    # Create Parameter from parameter yaml
+    check_params 1 "$@"
+    PARAMETER="$1"
+    FILENAME="$PARAMETER.yml"
+    build_from_template "$PARAMETER" "templates/parameter.mustache" "parameters" "$FILENAME"
+}
+
+function schema_builder {
+    # Create Schema from schema yaml
+    check_params 1 "$@"
+    SCHEMA="$1"
+    FILENAME="$SCHEMA.yml"
+    build_from_template "$SCHEMA" "templates/schema.mustache" "schemas" "$FILENAME"
+}
+
 function insert_resource_paths {
+    # Insert path into resource index
+    check_params 1 "$@"
+    RESOURCE="$1"
+    export FILENAME="$RESOURCE.yml"
+    yq -i '.paths.$ref = env(FILENAME)' resources/_index.yml
+}
+
+function insert_parameter {
+    # Insert parameter into parameter index
+    check_params 2 "$@"
+    export PARAM_TYPE="$1"
+    PARAM="$2"
+    export FILENAME="$PARAM.yml"
+    yq -i '.[env(PARAM_TYPE)].$ref = env(FILENAME)' parameters/_index.yml
+}
+
+function insert_response {
+    # Insert response into response index
+    check_params 2 "$@"
+    export STATUS_CODE="$1"
+    RESPONSE="$2"
+    export FILENAME="$RESPONSE.yml"
+    yq -i '.[env(STATUS_CODE)].$ref = env(FILENAME)' responses/_index.yml
+}
+
+function insert_schema {
+    # Insert schema into schema index
+    check_params 1 "$@"
+    export SCHEMA="$1"
+    export FILENAME="$SCHEMA.yml"
+    yq -i '.[env(SCHEMA)].$ref = env(FILENAME)' schemas/_index.yml
     
 }
