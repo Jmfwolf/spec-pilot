@@ -51,15 +51,14 @@ function init_project {
 }
 
 function build_from_template {
-    # use user input data as file and appropriate mustache template
-    # to create new asset 
-    # Use Bash Mustache to create 
+    # Use user input data as file and appropriate mustache template
+    # to create a new asset 
     check_params 4 "$@"
     FILE="$1"
     TEMPLATE="$2"
     DIR_NAME="$3"
     FILENAME="$4"
-    yq -j . $FILE | mustache $TEMPLATE - > $DIR_NAME/$FILENAME
+    yq -j . $FILE | mustache - "$TEMPLATE" > $DIR_NAME/$FILENAME
 }
 
 function resource_builder {

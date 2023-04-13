@@ -1,0 +1,19 @@
+schemas:
+  error:
+    type: object
+    properties:
+      code:
+        type: integer
+        description: http status code
+      message:
+        type: string
+        description: error message
+  user:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: user id
+      name:
+        type: string
+        description: user name
