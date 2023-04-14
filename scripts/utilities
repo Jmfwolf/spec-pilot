@@ -155,6 +155,3 @@ function init_prompt {
     # Call init_project function to set up the project structure
     init_project "$PROJECT_NAME"
 }
-
-# Uncomment the following line to call the init_prompt function
-# init_prompt
