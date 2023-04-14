@@ -10,7 +10,7 @@ function check_params {
 }
 
 function insert_into_index {
-    # yq insert inplace at the root level the environment variable 
+    # yq insert inplace at the root level the environment variable
     # NEW_ENTRY into the index file of the Directory type: parameter, resources, schemas, or responses
     check_params 2 "$@"
     export NEW_ENTRY="$1"
@@ -56,7 +56,7 @@ function init_project {
 
 function build_from_template {
     # Use user input data as file and appropriate mustache template
-    # to create a new asset 
+    # to create a new asset
     check_params 4 "$@"
     FILE="$1"
     TEMPLATE="$2"
@@ -131,3 +131,46 @@ function insert_schema {
     yq -i '.[env(SCHEMA)].$ref = env(FILENAME)' schemas/_index.yml
     
 }
+
+function init_prompt {
+    read -r "Enter the project name: " PROJECT_NAME
+    read -r "Enter the project title: " TITLE
+    read -r "Enter the project description: " DESCRIPTION
+    read -r "Enter the project version: " VERSION
+    read -r "Enter your name: " CONTACT_NAME
+    read -r "Enter your email: " CONTACT_EMAIL
+    
+    mkdir -p "$PROJECT_NAME"
+    touch "$PROJECT_NAME"/project_info.yml
+    
+    # Save user input in project_info.yml file
+    {
+        echo "api_title: $TITLE"
+        "api_description: $DESCRIPTION"
+        "api_version: $VERSION"
+        "contact_name: $CONTACT_NAME"
+        "contact_email: $CONTACT_EMAIL"
+    } >> "$PROJECT_NAME"/project_info.yml
+    
+    # Call init_project function to set up the project structure
+    init_project "$PROJECT_NAME"
+    
+    # Define the mustache template
+    TEMPLATE="info:
+    title: {{title}}
+    description: {{description}}
+    version: {{version}}
+    contact:
+    name: {{contactName}}
+    email: {{contactEmail}}
+    url: {{contactUrl}}"
+    
+    # Save the mustache template to a file
+    echo "$TEMPLATE" > "$PROJECT_NAME"/info.mustache
+    
+    # Use yq to convert project_info.yml to JSON, then use mustache to fill in the template
+    yq -j . "$PROJECT_NAME"/project_info.yml | mustache - "$PROJECT_NAME"/info.mustache > "$PROJECT_NAME"/openapi.yml
+}
+
+# Uncomment the following line to call the init_prompt function
+# init_prompt
