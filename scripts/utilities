@@ -141,35 +141,19 @@ function init_prompt {
     read -r "Enter your email: " CONTACT_EMAIL
     
     mkdir -p "$PROJECT_NAME"
-    touch "$PROJECT_NAME"/project_info.yml
+    touch "$PROJECT_NAME"/project_config.yml
     
-    # Save user input in project_info.yml file
+    # Save user input inproject_config.yml file
     {
         echo "api_title: $TITLE"
         "api_description: $DESCRIPTION"
         "api_version: $VERSION"
         "contact_name: $CONTACT_NAME"
         "contact_email: $CONTACT_EMAIL"
-    } >> "$PROJECT_NAME"/project_info.yml
+    } >> "$PROJECT_NAME"/project_config.yml
     
     # Call init_project function to set up the project structure
     init_project "$PROJECT_NAME"
-    
-    # Define the mustache template
-    TEMPLATE="info:
-    title: {{title}}
-    description: {{description}}
-    version: {{version}}
-    contact:
-    name: {{contactName}}
-    email: {{contactEmail}}
-    url: {{contactUrl}}"
-    
-    # Save the mustache template to a file
-    echo "$TEMPLATE" > "$PROJECT_NAME"/info.mustache
-    
-    # Use yq to convert project_info.yml to JSON, then use mustache to fill in the template
-    yq -j . "$PROJECT_NAME"/project_info.yml | mustache - "$PROJECT_NAME"/info.mustache > "$PROJECT_NAME"/openapi.yml
 }
 
 # Uncomment the following line to call the init_prompt function
