@@ -1,10 +1,10 @@
 #!/bin/bash
 
 function check_params {
-    local expected_params="$1"
+    local EXPECTED_PARAMS="$1"
     shift
-    if [ "$#" -ne "$expected_params" ]; then
-        echo -e "Error: Incorrect number of parameters. Expected $expected_params, but received $#\n"
+    if [ "$#" -ne "$EXPECTED_PARAMS" ]; then
+        echo -e "Error: Incorrect number of parameters. Expected $EXPECTED_PARAMS, but received $#\n"
         exit 1
     fi
 }
@@ -12,8 +12,9 @@ function check_params {
 function insert_into_index {
     # yq insert inplace at the root level the environment variable 
     # NEW_ENTRY into the index file of the Directory type: parameter, resources, schemas, or responses
-    check_params 1 "$@"
+    check_params 2 "$@"
     export NEW_ENTRY="$1"
+    local DIR_NAME="$2"
     export NEW_FILE="$NEW_ENTRY.yml"
     yq -i '.[env(NEW_ENTRY)].$ref = env(NEW_FILE)' $DIR_NAME/_index.yml
     echo "$NEW_ENTRY inserted to $DIR_NAME/_index.yml"
@@ -21,23 +22,26 @@ function insert_into_index {
 
 function create_asset {
     # touch new yml file in the appropriate directory
-    check_params 1 "$@"
+    check_params 2 "$@"
     export NEW_ASSET="$1"
+    local DIR_NAME="$2"
     touch $DIR_NAME/"$NEW_ASSET.yml"
     echo "$NEW_ASSET successfully created"
 }
 
 function remove_from_index {
     # yq remove inplace the entry in _index.yml that matches the value passed in
-    check_params 1 "$@"
+    check_params 2 "$@"
     export RM_TARGET="$1"
+    local DIR_NAME="$2"
     yq -i 'del( .[env(RM_TARGET)] )' $DIR_NAME/_index.yml
 }
 
 function remove_asset {
     # remove the rm_target from the directory and the indexing
-    check_params 1 "$@"
+    check_params  "$@"
     export RM_TARGET="$1"
+    local DIR_NAME="$2"
     rm $DIR_NAME/"$RM_TARGET.yml"
     remove_from_index "$RM_TARGET"
 }

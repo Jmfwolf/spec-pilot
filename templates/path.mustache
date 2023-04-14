@@ -1,22 +1,22 @@
 paths:
-  /v{{api-version}}/{{resource-name}}:
+  /{{api_version}}/{{resource_name}}:
     post:
-      description: Create {{resource-name}}
-      summary: Create {{resource-name}}
-      operationId: create{{resource-name}}
+      description: Create {{resource_name}}
+      summary: Create {{resource_name}}
+      operationId: create{{resource_name}}
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "../schemas/_index.yml#/{{resource-name}}"
+              $ref: "../schemas/_index.yml#/{{resource_name}}"
         required: true
       responses:
         "201":
-          description: "{{resource-name}} creation succeeded"
+          description: "{{resource_name}} creation succeeded"
           content:
             application/json:
               schema:
-                $ref: "../schemas/_index.yml#/{{resource-name}}"
+                $ref: "../schemas/_index.yml#/{{resource_name}}"
         "400":
           description: Bad Request
           content:
@@ -30,20 +30,20 @@ paths:
               schema:
                 $ref: "../schemas/_index.yml#/ErrorResponse"
 
-  /v{{api-version}}/{{resource-name}}/{id}:
+  /{{api_version}}/{{resource_name}}/{id}:
       get:
-        description: Get {{resource-name}} by ID
-        summary: Get {{resource-name}} by ID
-        operationId: get{{resource-name}}ById
+        description: Get {{resource_name}} by ID
+        summary: Get {{resource_name}} by ID
+        operationId: get{{resource_name}}ById
         responses:
           "200":
-            description: "{{resource-name}} found"
+            description: "{{resource_name}} found"
             content:
               application/json:
                 schema:
-                  $ref: "../schemas/_index.yml#/{{resource-name}}"
+                  $ref: "../schemas/_index.yml#/{{resource_name}}"
           "404":
-            description: "{{resource-name}} not found"
+            description: "{{resource_name}} not found"
             content:
               application/json:
                 schema:
@@ -55,22 +55,22 @@ paths:
                 schema:
                   $ref: "../schemas/_index.yml#/ErrorResponse"
       put:
-        description: Update {{resource-name}} by ID
-        summary: Update {{resource-name}} by ID
-        operationId: update{{resource-name}}ById
+        description: Update {{resource_name}} by ID
+        summary: Update {{resource_name}} by ID
+        operationId: update{{resource_name}}ById
         requestBody:
           content:
             application/json:
               schema:
-                $ref: "../schemas/_index.yml#/{{resource-name}}"
+                $ref: "../schemas/_index.yml#/{{resource_name}}"
           required: true
         responses:
           "200":
-            description: "{{resource-name}} update succeeded"
+            description: "{{resource_name}} update succeeded"
             content:
               application/json:
                 schema:
-                  $ref: "../schemas/_index.yml#/{{resource-name}}"
+                  $ref: "../schemas/_index.yml#/{{resource_name}}"
           "400":
             description: Bad Request
             content:
@@ -78,7 +78,7 @@ paths:
             schema:
             $ref: "../schemas/_index.yml#/ErrorResponse"
           "404":
-            description: "{{resource-name}} not found"
+            description: "{{resource_name}} not found"
             content:
               application/json:
                 schema:
@@ -90,14 +90,14 @@ paths:
                 schema:
                   $ref: "../schemas/_index.yml#/ErrorResponse"
       delete:
-        description: Delete {{resource-name}} by ID
-        summary: Delete {{resource-name}} by ID
-        operationId: delete{{resource-name}}ById
+        description: Delete {{resource_name}} by ID
+        summary: Delete {{resource_name}} by ID
+        operationId: delete{{resource_name}}ById
         responses:
           "204":
             description: No Content
           "404":
-            description: "{{resource-name}} not found"
+            description: "{{resource_name}} not found"
             content:
               application/json:
                 schema:
