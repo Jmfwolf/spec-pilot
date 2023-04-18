@@ -1,6 +1,6 @@
-{{status-code}}:
+{{statusCode}}:
   description: {{description}}
   content:
-    application/json:
+    {{mediaType}}:
       schema:
-        $ref: "../schemas/_index.yml#/{{schema-name}}"
+        $ref: '{{schemaFile}}'

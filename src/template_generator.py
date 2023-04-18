@@ -54,10 +54,6 @@ def generate_response(context, output_file='response.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/response.mustache", context, output_file)
 
-def generate_parameter_object(context, output_file='parameter_object.yaml', version='v2.0'):
-    check_version(version)
-    render_template(f"templates/{version}/parameter_object.mustache", context, output_file)
-
 def generate_tag(context, output_file='tag.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/tag.mustache", context, output_file)
@@ -148,6 +144,45 @@ def demo():
             'url': 'https://www.apache.org/licenses/LICENSE-2.0'
         }
     }
+    contact_context = {
+    'name': 'Library API Support',
+    'url': 'https://example.com/support',
+    'email': 'support@example.com'
+    }
+
+    generate_contact(contact_context, os.path.join(f"{project_name}/contacts", 'library_api_support.yaml'), version='v3.0')
+
+    license_context = {
+        'name': 'Apache 2.0',
+        'url': 'https://www.apache.org/licenses/LICENSE-2.0'
+    }
+
+    generate_license(license_context, os.path.join(f"{project_name}/licenses", 'apache_2.0.yaml'), version='v3.0')
+
+    responses_context = {
+        'statusCode': '200',
+        'description': 'Success',
+        'mediaType': 'application/json',
+        'schemaName': 'Book',
+        'schemaFile': os.path.join('schemas', 'book.yaml'),
+        'example': {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'publication_date': '1951-07-16'}
+    }
+
+    generate_response(responses_context, os.path.join(f"{project_name}/responses", 'success.yaml'), version='v3.0')
+
+    servers_context = {
+        'url': 'https://example.com/api',
+        'description': 'Production server'
+    }
+
+    generate_server(servers_context, os.path.join(f"{project_name}/servers", 'production.yaml'), version='v3.0')
+
+    tags_context = {
+        'name': 'Books',
+        'description': 'Operations related to books'
+    }
+
+    generate_tag(tags_context, os.path.join(f"{project_name}/tags", 'books.yaml'), version='v3.0')
 
     generate_info(info_context, os.path.join('info.yaml'), version='v3.0')
 

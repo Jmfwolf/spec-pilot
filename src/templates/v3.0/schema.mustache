@@ -1,6 +1,16 @@
-{{statusCode}}:
-  description: {{description}}
-  content:
-    {{mediaType}}:
-      schema:
-        $ref: '{{schemaFile}}'
+type: object
+properties:
+{{#properties}}
+  {{name}}:
+    type: {{type}}
+    description: {{description}}
+    example: {{example}}
+    {{#additionalProperties}}
+    format: {{format}}
+    {{/additionalProperties}}
+{{/properties}}
+required:
+{{#required}}
+  - {{.}}
+{{/required}}
+description: {{description}}
