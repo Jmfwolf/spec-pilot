@@ -1,0 +1,20 @@
+{{path}}:
+  {{httpMethod}}:
+    summary: {{summary}}
+    description: {{description}}
+    operationId: {{operationId}}
+    tags:
+{{#tags}}
+      - {{tag}}
+{{/tags}}
+    parameters: {{parameters}}
+    requestBody:
+      description: {{requestBodyDescription}}
+      required: {{requestBodyRequired}}
+      content:
+        {{mediaType}}:
+          schema:
+            $ref: '#/components/schemas/{{schemaName}}'
+    responses:
+      '{{statusCode}}':
+        description: {{responseDescription}}
