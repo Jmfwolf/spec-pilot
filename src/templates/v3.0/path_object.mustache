@@ -21,5 +21,12 @@
           $ref: '#/components/schemas/{{schemaName}}'
   {{/requestBodyDescription}}
   responses:
-    {{> response}}
+  {{#response}}
+    {{statusCode}}:
+    description: {{description}}
+    content:
+      {{mediaType}}:
+        schema:
+          $ref: '{{schemaFile}}'
+  {{/response}}
 {{/httpMethod}}
