@@ -111,11 +111,18 @@ def demo():
         'requestBodyRequired': True,
         'mediaType': 'application/json',
         'schemaName': 'Book',
-        'schemaFile': os.path.join('schemas', 'book.yaml'),
-        'statusCode': '201',
-        'responseDescription': 'Book successfully created',
+        'schemaFile': '#/components/schemas/Book',
+        'responses': [
+            {
+                'statusCode': '201',
+                'description': 'Book successfully created',
+                'mediaType': 'application/json',
+                'schemaName': 'Book',
+                'schemaFile': '#/components/schemas/Book',
+                'example': {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'publication_date': '1951-07-16'}
+            }
+        ]
     }
-
     generate_path_object(path_object_context, os.path.join(f"{project_name}/paths", 'books.yaml'), version='v3.0')
 
     parameter_context = {

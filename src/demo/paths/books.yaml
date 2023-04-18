@@ -4,7 +4,7 @@ post:
   description: Creates a new book in the library
   operationId: createBook
   tags:
-    - 
+    - Books
   parameters:
     - $ref: '#/components/parameters/bookId'
   requestBody:
