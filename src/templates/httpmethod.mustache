@@ -1,0 +1,24 @@
+{{#httpMethod}}
+{{httpMethod}}:
+  summary: {{summary}}
+  description: {{description}}
+  operationId: {{operationId}}
+  tags:
+  {{#tags}}
+    - {{tag}}
+  {{/tags}}
+  parameters:
+  {{#parameters}}
+    - $ref: '#/components/parameters/{{parameterName}}'
+  {{/parameters}}
+  {{#requestBodyDescription}}
+  requestBody:
+    required: {{requestBodyRequired}}
+    content:
+      {{mediaType}}:
+        schema:
+          $ref: '#/components/schemas/{{schemaName}}'
+  {{/requestBodyDescription}}
+  responses:
+    {{> response}}
+{{/httpMethod}}

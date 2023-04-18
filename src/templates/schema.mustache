@@ -1,16 +1,6 @@
-type: object
-properties:
-{{#properties}}
-  {{name}}:
-    type: {{type}}
-    description: {{description}}
-    example: {{example}}
-    {{#additionalProperties}}
-    format: {{format}}
-    {{/additionalProperties}}
-{{/properties}}
-required:
-{{#required}}
-  - {{name}}
-{{/required}}
-description: {{description}}
+{{statusCode}}:
+  description: {{description}}
+  content:
+    {{mediaType}}:
+      schema:
+        $ref: '{{schemaFile}}'

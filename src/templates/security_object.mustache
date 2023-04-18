@@ -1,0 +1,58 @@
+security:
+  - {{#securitySchemes}}
+    {{name}}:
+      {{#type}}
+      type: {{type}}
+      {{/type}}
+      {{#description}}
+      description: {{description}}
+      {{/description}}
+      {{#in}}
+      in: {{in}}
+      {{/in}}
+      {{#scheme}}
+      scheme: {{scheme}}
+      {{/scheme}}
+      {{#bearerFormat}}
+      bearerFormat: {{bearerFormat}}
+      {{/bearerFormat}}
+      {{#openIdConnectUrl}}
+      openIdConnectUrl: {{openIdConnectUrl}}
+      {{/openIdConnectUrl}}
+      {{#flows}}
+      flows:
+        {{#implicit}}
+        implicit:
+          authorizationUrl: {{implicit.authorizationUrl}}
+          scopes:
+            {{#implicit.scopes}}
+            {{name}}: {{description}}
+            {{/implicit.scopes}}
+        {{/implicit}}
+        {{#password}}
+        password:
+          tokenUrl: {{password.tokenUrl}}
+          scopes:
+            {{#password.scopes}}
+            {{name}}: {{description}}
+            {{/password.scopes}}
+        {{/password}}
+        {{#clientCredentials}}
+        clientCredentials:
+          tokenUrl: {{clientCredentials.tokenUrl}}
+          scopes:
+            {{#clientCredentials.scopes}}
+            {{name}}: {{description}}
+            {{/clientCredentials.scopes}}
+        {{/clientCredentials}}
+        {{#authorizationCode}}
+        authorizationCode:
+          authorizationUrl: {{authorizationCode.authorizationUrl}}
+          tokenUrl: {{authorizationCode.tokenUrl}}
+          scopes:
+            {{#authorizationCode.scopes}}
+            {{name}}: {{description}}
+            {{/authorizationCode.scopes}}
+        {{/authorizationCode}}
+      {{/flows}}
+    {{/securitySchemes}}

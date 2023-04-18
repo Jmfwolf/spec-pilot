@@ -1,6 +1,19 @@
 import pystache
 import os
 
+def init_project():
+    project_name = input("Enter a name for your project: ")
+    
+    # Create the main project directory
+    os.mkdir(project_name)
+    print(f"Created project directory: {project_name}")
+    
+    # Create subdirectories for each generatable item type
+    subdirectories = ["schemas", "path_objects", "parameters", "info", "headers", "media_types", "responses", "parameter_objects", "tags", "servers", "contact", "license"]
+    for subdir in subdirectories:
+        os.mkdir(os.path.join(project_name, subdir))
+        print(f"Created {subdir} directory")
+
 def render_template(template_file, context, output_file):
     with open(template_file, 'r') as f:
         template = f.read()
@@ -20,6 +33,31 @@ def generate_parameter(context, output_file='parameter.yaml'):
 
 def generate_info(context, output_file='info.yaml'):
     render_template("templates/info.mustache", context, output_file)
+
+def generate_header(context, output_file='header.yaml'):
+    render_template("templates/header.mustache", context, output_file)
+
+def generate_media_type(context, output_file='media_type.yaml'):
+    render_template("templates/media_type.mustache", context, output_file)
+
+def generate_response(context, output_file='response.yaml'):
+    render_template("templates/response.mustache", context, output_file)
+
+def generate_parameter_object(context, output_file='parameter_object.yaml'):
+    render_template("templates/parameter_object.mustache", context, output_file)
+
+def generate_tag(context, output_file='tag.yaml'):
+    render_template("templates/tag.mustache", context, output_file)
+
+def generate_server(context, output_file='server.yaml'):
+    render_template("templates/server.mustache", context, output_file)
+
+def generate_contact(context, output_file='contact.yaml'):
+    render_template("templates/contact.mustache", context, output_file)
+
+def generate_license(context, output_file='license.yaml'):
+    render_template("templates/license.mustache", context, output_file)
+
 
 # Example usage
 schema_context = {
