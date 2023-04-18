@@ -53,9 +53,9 @@ Once you have generated the various components of your OAS files (e.g., schemas,
 
 For example, using Swagger-CLI, you can merge the generated files with the following command:
 
-    ```sh
-    swagger-cli bundle -r -o output.yaml info.yaml
-    ```
+```sh
+swagger-cli bundle -r -o output.yaml info.yaml
+```
 
 This command will recursively merge all the generated files referenced in info.yaml and output the final OAS file as output.yaml.
 Validation
@@ -64,9 +64,9 @@ After merging the generated files, it's a good idea to validate the resulting OA
 
 For example, using OpenAPI CLI, you can validate the merged OAS file with the following command:
 
-    ```sh
-    openapi-cli validate output.yaml
-    ```
+```sh
+openapi-cli validate output.yaml
+```
 
 If there are any errors or warnings, address them in your templates or context definitions and regenerate the OAS files.
 
