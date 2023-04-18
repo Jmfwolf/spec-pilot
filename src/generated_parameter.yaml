@@ -1,7 +1,0 @@
-- name: id
-  in: path
-  description: The unique identifier of the book
-  required: True
-  schema:
-    type: string
-    example: b1c4d2e5
