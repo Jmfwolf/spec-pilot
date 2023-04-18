@@ -1,0 +1,26 @@
+{{path}}:
+  {{httpMethod}}:
+    summary: {{summary}}
+    description: {{description}}
+    operationId: {{operationId}}
+    tags:
+    {{#tags}}
+      - {{tag}}
+    {{/tags}}
+    parameters:
+    {{#parameters}}
+      - $ref: '{{parameterFile}}'
+    {{/parameters}}
+    consumes:
+    {{#consumes}}
+      - {{mediaType}}
+    {{/consumes}}
+    produces:
+    {{#produces}}
+      - {{mediaType}}
+    {{/produces}}
+    responses:
+      '{{statusCode}}':
+        description: {{responseDescription}}
+        schema:
+          $ref: '{{schemaFile}}'

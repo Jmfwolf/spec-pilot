@@ -1,111 +1,89 @@
-# OAS-maker
+# OAS Maker
 
-This software simplifies the creation and management of customized OpenAPI specifications for specific tools and platforms. It provides a set of utilities for creating, updating, and removing assets such as schemas, resources, parameters, and responses. The software also helps you maintain a clean and organized file structure and build assets from templates.
-
-## Project Goal
-
-The primary objective of this project is to simplify the creation and management of customized OpenAPI specifications for specific tools and platforms. In various scenarios, a single OpenAPI specification may not be suitable for multiple tools due to differences in requirements, constraints, or features.
-
-For instance, when using [Terrraform-Provider-OpenAPI](https://github.com/dikhan/terraform-provider-openapi) to manage infrastructure alongside [API Gateway on AWS](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-import-api.html) for API deployment, the same OpenAPI specification might not be compatible with both tools. This could be due to differences in supported fields, required extensions, or other tool-specific expectations.
-
-This software aims to address such issues by providing a foundation for creating a "proto-build" of your service. The proto-build serves as a starting point for generating tool-specific OpenAPI specifications tailored to the requirements of each target platform. This approach enables seamless integration with various tools, ensuring compatibility and promoting best practices for API development.
-
-By using this software, engineers can maintain a single source of truth for their API specifications while generating and managing customized versions for different tools and environments, streamlining development, and reducing the risk of inconsistencies across platforms.
+OAS Maker is a Python script to generate OpenAPI Specification (OAS) files using the mustache templating engine. This script allows you to easily create OAS files for your API by providing a simple way to define the various components such as schemas, paths, parameters, responses, etc. This project supports both OpenAPI v2.0 (Swagger) and v3.0 specifications.
 
 ## Prerequisites
 
-- [yq](https://github.com/mikefarah/yq) command-line processor for YAML (version 4.x)
-- [mustache](http://mustache.github.io/) command-line tool for rendering mustache templates
+Before using this script, make sure you have the following installed:
 
-## Usage
+    Python 3.6 or higher
+    pystache (pip install pystache)
 
-To use this script, first clone the repository, and navigate to the directory containing the script. Make sure the script is executable by running:
+## How to use
 
-```sh
+1. Clone or download this repository.
+2. Define the context for each component (e.g., schema, path object, parameter, etc.) following the examples provided in the demo() function.
+3. Call the appropriate function for each component, passing the context and the desired output file location.
+4. Run the script to generate the OAS files in the specified output directories.
 
-chmod +x utilities.sh
-```
+## Functions
 
-### Initializing a Project
+The main functions provided by the script are:
 
-To initialize a new project, run the following command:
+- `init_project(project_name)`: Initializes a new project with the required directory structure.
+- `generate_oas(context, output_file, version)`: Generates an OAS file.
+- `generate_schema(context, output_file, version)`: Generates a schema definition file.
+- `generate_path_object(context, output_file, version)`: Generates a path object definition file.
+- `generate_parameter(context, output_file, version)`: Generates a parameter definition file.
+- `generate_info(context, output_file, version)`: Generates the main info block for the OAS file.
+- `generate_header(context, output_file, version)`: Generates a header definition file.
+- `generate_media_type(context, output_file, version)`: Generates a media type definition file.
+- `generate_response(context, output_file, version)`: Generates a response definition file.
+- `generate_parameter_object(context, output_file, version)`: Generates a parameter object definition file.
+- `generate_tag(context, output_file, version)`: Generates a tag definition file.
+- `generate_server(context, output_file, version)`: Generates a server definition file.
+- `generate_contact(context, output_file, version)`: Generates a contact definition file.
+- `generate_license(context, output_file, version)`: Generates a license definition file.
 
-```sh
+## Example usage
 
-./utilities.sh init_project <project_name>
-```
+The `demo()` function in the script demonstrates how to use the functions to generate a simple OAS for a Library API. To run the demo, simply execute the script:
 
-This will create the initial file structure and indexes for your project.
+`python template_generator.py`
 
-### Creating an Asset
+This will create a new project named "demo" with the necessary directory structure and generate the OAS files for the provided context.
 
-To create a new asset, run the following command:
+## Customization
 
-```sh
+You can customize the templates for each component by editing the mustache template files located in the `templates/v2.0` and `templates/v3.0` directories. The script will automatically render the templates with the provided context when generating the OAS files.
 
-./utilities.sh create_asset <asset_name>
-```
+## Merging Generated Files
 
-This will create a new YAML file in the appropriate directory.
+Once you have generated the various components of your OAS files (e.g., schemas, paths, parameters, etc.), you will need to merge them into a single OAS file. This can be done manually or by using a tool like Swagger-CLI or OpenAPI CLI.
 
-### Inserting an Asset into the Index
+For example, using Swagger-CLI, you can merge the generated files with the following command:
 
-To insert an asset into the index, run the following command:
+    ```sh
+    swagger-cli bundle -r -o output.yaml info.yaml
+    ```
 
-```sh
+This command will recursively merge all the generated files referenced in info.yaml and output the final OAS file as output.yaml.
+Validation
 
-./utilities.sh insert_into_index <asset_name>
-```
+After merging the generated files, it's a good idea to validate the resulting OAS file to ensure that it conforms to the OpenAPI Specification. You can use an online validator like Swagger Editor or Swagger Validator or a command-line tool like OpenAPI CLI or Swagger CLI.
 
-This will insert the specified asset into the appropriate index file.
+For example, using OpenAPI CLI, you can validate the merged OAS file with the following command:
 
-### Removing an Asset from the Index
+    ```sh
+    openapi-cli validate output.yaml
+    ```
 
-To remove an asset from the index, run the following command:
+If there are any errors or warnings, address them in your templates or context definitions and regenerate the OAS files.
 
-```sh
+## Documentation
 
-./utilities.sh remove_from_index <asset_name>
-```
+Once you have a valid OAS file, you can use it to generate documentation for your API. There are various tools available for this purpose, such as Swagger UI, ReDoc, or Spectacle.
 
-This will remove the specified asset from the index file.
+For example, to generate documentation using Swagger UI, follow these steps:
 
-### Removing an Asset
+    Download or clone the Swagger UI repository.
+    Replace the example/swagger.json file in the Swagger UI repository with your generated and merged OAS file.
+    Open the dist/index.html file in a web browser to view the interactive documentation.
 
-To remove an asset, run the following command:
+## Contributing
 
-```sh
-
-./utilities.sh remove_asset <asset_name>
-```
-
-This will delete the specified asset and remove it from the index.
-
-### Building Assets from Templates
-
-To build assets from templates, run the following command:
-
-```sh
-
-./utilities.sh build_from_template <input_file> <template_file> <output_directory> <output_asset_name>
-```
-
-This will use the specified input file and template file to create a new asset in the specified output directory.
-
-### Building Paths from Resources
-
-To build paths from resources, run the following command:
-
-```sh
-./utilities.sh path_builder <resource_name>
-```
-
-This will generate a path file from the specified resource YAML file, using the provided templates/path.mustache template, and save it in the resources directory with a .yml extension.
+We welcome contributions to improve and extend OAS Maker. To contribute, please fork the repository, make your changes, and submit a pull request.
 
 ## License
 
-This project is licensed under the [GNU General Public License v3.0.](https://www.gnu.org/licenses/gpl-3.0.html) See the LICENSE file for details.
-
-## Acknowledgments
-
-Special thanks to the creators of the yq and mustache command-line tools, which are essential components of this software.
+OAS Maker is released under the GNU GENERAL PUBLIC LICENSE. See the LICENSE file for more information.

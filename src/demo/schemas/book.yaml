@@ -1,0 +1,6 @@
+:
+  description: A book in the library.
+  content:
+    :
+      schema:
+        $ref: ''

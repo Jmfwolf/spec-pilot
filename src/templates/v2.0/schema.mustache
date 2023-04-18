@@ -1,0 +1,14 @@
+{{schemaName}}:
+  type: {{type}}
+  properties:
+  {{#properties}}
+    {{name}}:
+      type: {{type}}
+      description: {{description}}
+      example: {{example}}
+  {{/properties}}
+  required:
+  {{#required}}
+    - {{name}}
+  {{/required}}
+  description: {{description}}
