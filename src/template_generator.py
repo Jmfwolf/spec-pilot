@@ -22,41 +22,58 @@ def render_template(template_file, context, output_file):
     with open(output_file, 'w') as f:
         f.write(rendered)
 
-def generate_schema(context, output_file='schema.yaml'):
-    render_template("templates/schema.mustache", context, output_file)
+def check_version(version):
+    if version != 'v2.0' and version != 'v3.0':
+        raise ValueError("Version must be either 'v2.0' or 'v3.0'")
 
-def generate_path_object(context, output_file='path_object.yaml'):
-    render_template("templates/path_object.mustache", context, output_file)
+def generate_schema(context, output_file='schema.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/schema.mustache", context, output_file)
 
-def generate_parameter(context, output_file='parameter.yaml'):
-    render_template("templates/parameter.mustache", context, output_file)
+def generate_path_object(context, output_file='path_object.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/path_object.mustache", context, output_file)
 
-def generate_info(context, output_file='info.yaml'):
-    render_template("templates/info.mustache", context, output_file)
+def generate_parameter(context, output_file='parameter.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/parameter.mustache", context, output_file)
 
-def generate_header(context, output_file='header.yaml'):
-    render_template("templates/header.mustache", context, output_file)
+def generate_info(context, output_file='info.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/info.mustache", context, output_file)
 
-def generate_media_type(context, output_file='media_type.yaml'):
-    render_template("templates/media_type.mustache", context, output_file)
+def generate_header(context, output_file='header.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/header.mustache", context, output_file)
 
-def generate_response(context, output_file='response.yaml'):
-    render_template("templates/response.mustache", context, output_file)
+def generate_media_type(context, output_file='media_type.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/media_type.mustache", context, output_file)
 
-def generate_parameter_object(context, output_file='parameter_object.yaml'):
-    render_template("templates/parameter_object.mustache", context, output_file)
+def generate_response(context, output_file='response.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/response.mustache", context, output_file)
 
-def generate_tag(context, output_file='tag.yaml'):
-    render_template("templates/tag.mustache", context, output_file)
+def generate_parameter_object(context, output_file='parameter_object.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/parameter_object.mustache", context, output_file)
 
-def generate_server(context, output_file='server.yaml'):
-    render_template("templates/server.mustache", context, output_file)
+def generate_tag(context, output_file='tag.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/tag.mustache", context, output_file)
 
-def generate_contact(context, output_file='contact.yaml'):
-    render_template("templates/contact.mustache", context, output_file)
+def generate_server(context, output_file='server.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/server.mustache", context, output_file)
 
-def generate_license(context, output_file='license.yaml'):
-    render_template("templates/license.mustache", context, output_file)
+def generate_contact(context, output_file='contact.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/contact.mustache", context, output_file)
+
+def generate_license(context, output_file='license.yaml', version='v2.0'):
+    check_version(version)
+    render_template(f"templates/{version}/license.mustache", context, output_file)
+
 
 
 # Example usage
