@@ -1,0 +1,16 @@
+/books:
+post:
+  summary: Create a new book
+  description: Creates a new book in the library
+  operationId: createBook
+  tags:
+    - Books
+  parameters:
+    - $ref: '#/components/parameters/bookId'
+  requestBody:
+    required: True
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Book'
+  responses:
