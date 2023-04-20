@@ -13,6 +13,7 @@ def init_project(project_name):
     os.mkdir(os.path.join(project_name, "servers"))
     os.mkdir(os.path.join(project_name, "contacts"))
     os.mkdir(os.path.join(project_name, "licenses"))
+    os.mkdir(os.path.join(project_name, "info"))
 
 def render_template(template_file, context, output_file):
     with open(template_file, 'r') as f:
@@ -191,6 +192,6 @@ def demo():
 
     generate_tag(tags_context, os.path.join(f"{project_name}/tags", 'books.yaml'), version='v3.0')
 
-    generate_info(info_context, os.path.join('info.yaml'), version='v3.0')
+    generate_info(info_context, os.path.join(f"{project_name}/info", 'info.yaml'), version='v3.0')
 
 demo()
