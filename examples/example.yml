@@ -215,27 +215,12 @@ components:
       description: unique identification number
       schema:
         $ref: '#/components/schemas/id'
-  securitySchemes:
-    campus:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://api.mycampus.local/v1/oauth/dialog
-          tokenUrl: https://api.mycampus.local/v1/oauth/token
-          scopes:
-            student: Campus Student
-            teacher: Campus Teacher
-            administrator: Campus Administrator
-            clerk: Campus Clerk
 paths:
   /students:
     post:
       summary: Enroll Student
       description: Create Student
       operationId: createStudent
-      security:
-        - campus:
-          - administrator
       tags:
         - students
       requestBody:
@@ -261,12 +246,6 @@ paths:
       summary: Get Student
       description: Get Student by ID
       operationId: getStudentById
-      security:
-        - campus:
-          - administrator
-          - clerk
-          - teacher
-          - student
       tags:
         - students
       parameters:
@@ -287,9 +266,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
     put:
-      security:
-        - campus:
-          - administrator
       summary: Update Student Info
       description: Update Student
       operationId: updateStudent
@@ -321,9 +297,6 @@ paths:
       summary: Delete Student Info
       description: delete Student
       operationId: deleteStudent
-      security:
-        - campus:
-          - administrator
       parameters:
         - $ref: '#/components/parameters/id'
       tags:
@@ -345,9 +318,6 @@ paths:
       summary: Add Schedule
       description: Create a new Schedule
       operationId: createSchedule
-      security:
-        - campus:
-          - administrator
       tags:
         - schedules
       requestBody:
@@ -372,10 +342,6 @@ paths:
       summary: Get Schedules
       description: Retrieve all Schedules
       operationId: getSchedules
-      security:
-        - campus:
-          - administrator
-          - clerk
       tags:
         - schedules
       responses:
@@ -392,10 +358,6 @@ paths:
       summary: Get Schedule
       description: Get Schedule by ID
       operationId: getScheduleById
-      security:
-        - campus:
-          - administrator
-          - clerk
       tags:
         - schedules
       parameters:
@@ -419,9 +381,6 @@ paths:
       summary: Update Schedule
       description: Update Schedule by ID
       operationId: updateSchedule
-      security:
-        - campus:
-          - administrator
       tags:
         - schedules
       parameters:
@@ -450,9 +409,6 @@ paths:
       summary: Delete Schedule
       description: Delete Schedule by ID
       operationId: deleteSchedule
-      security:
-        - campus:
-          - administrator
       tags:
         - schedules
       parameters:
@@ -474,9 +430,6 @@ paths:
       summary: Add Teacher
       description: Create a new teacher
       operationId: createTeacher
-      security:
-        - campus:
-          - administrator
       tags:
         - teachers
       requestBody:
@@ -501,12 +454,6 @@ paths:
       summary: Get Teachers
       description: Retrieve all teachers
       operationId: getTeachers
-      security:
-        - campus:
-          - administrator
-          - clerk
-          - teacher
-          - student
       tags:
         - teachers
       responses:
@@ -523,10 +470,6 @@ paths:
       summary: Get Teacher
       description: Get teacher by ID
       operationId: getTeacherById
-      security:
-        - campus:
-          - administrator
-          - clerk
       tags:
         - teachers
       parameters:
@@ -550,9 +493,6 @@ paths:
       summary: Update Teacher
       description: Update teacher by ID
       operationId: updateTeacher
-      security:
-        - campus:
-          - administrator
       tags:
         - teachers
       parameters:
@@ -581,9 +521,6 @@ paths:
       summary: Delete Teacher
       description: Delete teacher by ID
       operationId: deleteTeacher
-      security:
-        - campus:
-          - administrator
       tags:
         - teachers
       parameters:
@@ -605,9 +542,6 @@ paths:
       summary: Add course
       description: Create a new course
       operationId: createCourse
-      security:
-        - campus:
-          - administrator
       tags:
         - courses
       requestBody:
@@ -632,12 +566,6 @@ paths:
       summary: Get courses
       description: Retrieve all courses
       operationId: getCourses
-      security:
-        - campus:
-          - administrator
-          - clerk
-          - teacher
-          - student
       tags:
         - courses
       responses:
@@ -654,10 +582,6 @@ paths:
       summary: Get course
       description: Get course by ID
       operationId: getCourseById
-      security:
-        - campus:
-          - administrator
-          - clerk
       tags:
         - courses
       parameters:
@@ -681,9 +605,6 @@ paths:
       summary: Update course
       description: Update course by ID
       operationId: updateCourse
-      security:
-        - campus:
-          - administrator
       tags:
         - courses
       parameters:
@@ -712,9 +633,6 @@ paths:
       summary: Delete course
       description: Delete course by ID
       operationId: deleteCourse
-      security:
-        - campus:
-          - administrator
       tags:
         - courses
       parameters:
@@ -736,12 +654,6 @@ paths:
       summary: Get Classrooms
       description: Retrieve all classrooms
       operationId: getClassrooms
-      security:
-        - campus:
-          - administrator
-          - clerk
-          - teacher
-          - student
       tags:
         - classrooms
       responses:
@@ -759,11 +671,6 @@ paths:
       summary: Get Classroom
       description: Get classroom by ID
       operationId: getClassroomById
-      security:
-        - campus:
-          - administrator
-          - teacher
-          - clerk
       tags:
         - classrooms
       parameters:
