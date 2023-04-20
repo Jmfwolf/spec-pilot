@@ -5,7 +5,7 @@
   operationId: {{operationId}}
   tags:
   {{#tags}}
-    - {{tag}}
+    - {{.}}
   {{/tags}}
   parameters:
   {{#parameters}}
@@ -20,5 +20,12 @@
           $ref: '#/components/schemas/{{schemaName}}'
   {{/requestBodyDescription}}
   responses:
-    {{> response}}
+  {{#responses}}
+    {{statusCode}}:
+    description: {{description}}
+    content:
+      {{mediaType}}:
+        schema:
+          $ref: '{{schemaFile}}'
+  {{/responses}}
 {{/httpMethod}}
