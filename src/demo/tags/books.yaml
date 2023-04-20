@@ -1,2 +1,2 @@
-- name: Books
-  description: Operations related to books
+name: Books
+description: Operations related to books

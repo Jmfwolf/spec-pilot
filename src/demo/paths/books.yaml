@@ -14,9 +14,3 @@ post:
         schema:
           $ref: '#/components/schemas/Book'
   responses:
-    &#x27;201&#x27;:
-    description: Book successfully created
-    content:
-      application/json:
-        schema:
-          $ref: '#/components/schemas/Book'

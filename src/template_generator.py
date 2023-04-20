@@ -1,5 +1,6 @@
 import pystache
 import os
+import yaml
 
 def init_project(project_name):
     if project_name == "":
@@ -69,6 +70,55 @@ def generate_contact(context, output_file='contact.yaml', version='v2.0'):
 def generate_license(context, output_file='license.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/license.mustache", context, output_file)
+    
+def generate_openapi_spec(project_name, version='v3.0', output_file='openapi_spec.yaml'):
+    check_version(version)
+
+    openapi_spec = {
+        'openapi': '3.0.0' if version == 'v3.0' else '2.0',
+        'info': {},
+        'paths': {},
+        'components': {
+            'schemas': {},
+            'parameters': {},
+            'responses': {},
+            'headers': {},
+            'requestBodies': {},
+            'securitySchemes': {}
+        },
+        'tags': [],
+        'servers': []
+    }
+
+    if os.path.exists(os.path.join(project_name, "info", "info.yaml")):
+        with open(os.path.join(project_name, "info", "info.yaml"), 'r') as f:
+            openapi_spec['info'] = yaml.safe_load(f)
+
+    for subdir, dirs, files in os.walk(project_name):
+        for file in files:
+            if file.endswith(".yaml"):
+                with open(os.path.join(subdir, file), 'r') as f:
+                    content = yaml.safe_load(f)
+
+                if subdir.endswith("schemas"):
+                    openapi_spec['components']['schemas'][file[:-5]] = content
+                elif subdir.endswith("paths"):
+                    openapi_spec['paths'].update(content)
+                elif subdir.endswith("parameters"):
+                    openapi_spec['components']['parameters'][file[:-5]] = content
+                elif subdir.endswith("responses"):
+                    openapi_spec['components']['responses'][file[:-5]] = content
+                elif subdir.endswith("tags"):
+                    openapi_spec['tags'].append(content)
+                elif subdir.endswith("servers"):
+                    openapi_spec['servers'].append(content)
+                elif subdir.endswith("contacts"):
+                    openapi_spec['info']['contact'] = content
+                elif subdir.endswith("licenses"):
+                    openapi_spec['info']['license'] = content
+
+    with open(output_file, 'w') as f:
+        yaml.dump(openapi_spec, f, sort_keys=False, default_flow_style=False)
 
 def demo():
     # Example usage
@@ -194,3 +244,4 @@ def demo():
     generate_info(info_context, os.path.join('info.yaml'), version='v3.0')
 
 demo()
+generate_openapi_spec("demo")
