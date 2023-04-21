@@ -51,6 +51,24 @@ openapi_spec = {"components": {"schemas": {"MySchema": {"type": "object", "prope
 modified_spec = process_natural_language_input(input_text, openapi_spec)
 ```
 
+## Validator
+
+This project will be using [vacuum linter](https://quobix.com/vacuum/)
+If it is not present, there are two options
+Either via a docker container
+
+```sh
+docker dshanley/vacuum lint <my-openapi-spec.yaml>
+```
+
+or curl
+
+```sh
+curl -fsSL https://quobix.com/scripts/install_vacuum.sh | sh 
+```
+
+[Customized rulesets](./lint-rulesets/) can be fed to the linter, this implementation is significantly faster than any linter in js or python
+
 ## Contributing
 
 If you would like to contribute to spec-pilot, please fork the repository and submit a pull request with your changes. Please make sure to include tests and update the documentation as necessary.
