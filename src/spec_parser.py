@@ -51,7 +51,6 @@ def modify_openapi_asset(openapi_spec, action, target, property_name, value=None
                 }
         elif target == "parameter":
             openapi_spec["components"]["parameters"][property_name] = value
-    # ... rest of the function
     elif action == "update":
         if target == "schema":
             openapi_spec["components"]["schemas"][property_name]["default"] = value
