@@ -1,7 +1,8 @@
 # spec-pilot
 
 Spec-pilot is a project that uses Natural Language Processing (NLP) to help create OpenAPI specifications. It consists of two main parts: a spec generator and a spec parser. The spec generator provides templates for creating different parts of an OpenAPI specification, while the spec parser uses NLP to parse natural language input and modify the OpenAPI specification accordingly.
-Installation
+
+## Installation
 
 To use spec-pilot, you must have Python 3 installed on your machine. Clone the repository from GitHub and install the required packages by running the following command in the project directory:
 
@@ -15,7 +16,8 @@ pip install -r requirements.txt
 
 The spec generator consists of several modules in the src/ directory, each of which provides functions for generating different parts of an OpenAPI specification. The templates/ directory contains Mustache templates used by the generator. Here are the main modules:
 
-**openapi_spec_generator.py**: This module contains functions for generating various parts of an OpenAPI spec, including schemas, paths, parameters, responses, tags, servers, contacts, and licenses. To use this module, import the relevant function and provide the necessary arguments. For example, to generate a schema for a v3.0 OpenAPI specification, you would use the following code:
+**openapi_spec_generator.py**: 
+This module contains functions for generating various parts of an OpenAPI spec, including schemas, paths, parameters, responses, tags, servers, contacts, and licenses. To use this module, import the relevant function and provide the necessary arguments. For example, to generate a schema for a v3.0 OpenAPI specification, you would use the following code:
 
 ```python
 
