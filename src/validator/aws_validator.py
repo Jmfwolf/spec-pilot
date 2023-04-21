@@ -46,7 +46,3 @@ def aws_apigateway_compatible(openapi_spec):
     check_default(spec, '')
 
     return len(errors) == 0, errors
-
-
-res = aws_apigateway_compatible('../examples/appwrite.yml')
-print(res)

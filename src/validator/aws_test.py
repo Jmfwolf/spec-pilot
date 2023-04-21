@@ -130,5 +130,3 @@ def test_aws_apigateway_compatible():
     except ValueError as e:
         print("Test case 2 passed: " + str(e))
 
-# Run the test function
-test_aws_apigateway_compatible()

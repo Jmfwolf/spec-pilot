@@ -111,7 +111,7 @@ openapi_spec = {
 }
 
 # Example input
-input_text = "add a 'description' field to the schema User"
-modified_openapi_spec = process_natural_language_input(input_text, openapi_spec)
+#input_text = "add a 'description' field to the schema User"
+#modified_openapi_spec = process_natural_language_input(input_text, openapi_spec)
 
-print(json.dumps(modified_openapi_spec, indent=2))
+#print(json.dumps(modified_openapi_spec, indent=2))
