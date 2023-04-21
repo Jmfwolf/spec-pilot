@@ -7,11 +7,12 @@ def identify_action(doc):
             return token.lemma_
     return None
 
-def identify_target(doc):
+def identify_target(doc, action_token):
     for token in doc:
-        if token.dep_ == "dobj":
+        if token.dep_ == "dobj" and token.head == action_token:
             return token.lemma_
     return None
+
 
 def identify_property(doc):
     for token in doc:
