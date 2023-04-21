@@ -1,70 +1,48 @@
-# OpenAPI Spec Generator
+# spec-pilot
 
-OpenAPI Spec Generator is a Python script that helps you generate a valid and working OpenAPI specification from various OpenAPI components, including schemas, paths, parameters, responses, tags, servers, contacts, and licenses. The script leverages the pystache library for template rendering and supports both OpenAPI v2.0 and v3.0.
+Spec-pilot is a project that uses Natural Language Processing (NLP) to help create OpenAPI specifications. It consists of two main parts: a spec generator and a spec parser. The spec generator provides templates for creating different parts of an OpenAPI specification, while the spec parser uses NLP to parse natural language input and modify the OpenAPI specification accordingly.
 
-## Features
-
-- Initialize an OpenAPI project with the required directory structure
-- Generate OpenAPI components using customizable templates
-- Combine and generate a complete OpenAPI specification from the generated components
-
-## Requirements
-
-    Python 3.x
-    PyYAML
-    pystache
-
-You can install these libraries using the following pip command:
+## Installation
+To use spec-pilot, you must have Python 3 installed on your machine. Clone the repository from GitHub and install the required packages by running the following command in the project directory:
 
 ```sh
-pip install PyYAML pystache
+pip install -r requirements.txt
 ```
 
 ## Usage
 
-Import the script into your project and call the init_project() function to create a new OpenAPI project directory with the required structure:
+To use the spec generator, import the relevant function and provide the necessary arguments. For example, to generate a schema for a v3.0 OpenAPI specification, you would use the following code:
 
 ```python
 
-from openapi_spec_generator import init_project
+from spec_pilot import generate_schema
 
-project_name = "my_project"
-init_project(project_name)
+context = {
+    "schema_name": "MySchema",
+    "schema_properties": {
+        "property1": {"type": "string"},
+        "property2": {"type": "integer"}
+    }
+}
+
+generate_schema(context, output_file="myschema.yaml", version="v3.0")
 ```
-Use the provided functions to generate individual OpenAPI components using customized context data and store them in the corresponding directories in the project folder:
 
+To use the spec parser, import the relevant function and provide a natural language input and the current state of the OpenAPI specification. For example, to add a property to a schema in the OpenAPI specification, you would use the following code:
 
 ```python
 
-from openapi_spec_generator import generate_schema, generate_path_object, generate_parameter, generate_info, generate_contact, generate_license, generate_response, generate_server, generate_tag
+from spec_pilot import process_natural_language_input
 
+input_text = "Add a 'description' property to the 'MySchema' schema"
+openapi_spec = {"components": {"schemas": {"MySchema": {"type": "object", "properties": {}}}}}
+
+modified_spec = process_natural_language_input(input_text, openapi_spec)
 ```
-## Generate and save your OpenAPI components using the corresponding functions
-
-Finally, call the generate_openapi_spec() function to generate the complete OpenAPI specification from the generated components:
-
-```python
-
-from openapi_spec_generator import generate_openapi_spec
-
-generate_openapi_spec(project_name, version='v3.0', output_file='openapi_spec.yaml')
-```
-
-## Demo
-
-A demo() function is provided in the script to demonstrate how to use the OpenAPI Spec Generator. You can run the demo by simply calling the function:
-
-```python
-
-from openapi_spec_generator import demo
-
-demo()
-```
-This will create a sample OpenAPI project, generate some components, and output an OpenAPI specification file named openapi_spec.yaml.
 
 ## Contributing
 
-We welcome contributions to improve and extend OAS Maker. To contribute, please fork the repository, make your changes, and submit a pull request.
+If you would like to contribute to spec-pilot, please fork the repository and submit a pull request with your changes. Please make sure to include tests and update the documentation as necessary.
 
 ## License
 

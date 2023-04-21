@@ -1,6 +1,0 @@
-200:
-  description: Success
-  content:
-    application/json:
-      schema:
-        $ref: 'schemas/book.yaml'
