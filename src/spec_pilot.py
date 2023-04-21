@@ -2,8 +2,8 @@ import argparse
 import os
 import sys
 import json
-from .generator import init_project, generate_openapi_spec
-from nlp_processing import process_natural_language_input
+from generator.generator import init_project, generate_openapi_spec
+from spec_parser.spec_parser import process_natural_language_input
 
 def main():
     parser = argparse.ArgumentParser(description="Spec-Pilot: Generate OpenAPI specifications using natural language")
