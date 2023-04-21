@@ -4,7 +4,7 @@ Spec-pilot is a project that uses Natural Language Processing (NLP) to help crea
 
 ## Documentation
 
-Information on spec-pilot's integrations, roadmap, and other features can be found in the [documentation](./docs/index.md)\
+Information on spec-pilot's integrations, roadmap, and other features can be found in the [documentation](./docs/index.md)
 
 ## Installation
 
