@@ -1,80 +1,12 @@
 openapi: 3.0.0
-info:
-  title: Library API
-  description: An API to manage books and shelves in a digital library
-  version: 1.0.0
-  contact:
-    contact:
-      name: Library API Support
-      url: https://example.com/support
-      email: support@example.com
-  license:
-    license:
-      name: Apache 2.0
-      url: https://www.apache.org/licenses/LICENSE-2.0
-paths:
-  /books: null
-  post:
-    summary: Create a new book
-    description: Creates a new book in the library
-    operationId: createBook
-    tags:
-    - Books
-    parameters:
-    - $ref: '#/components/parameters/bookId'
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Book'
-    responses: null
+info: {}
+paths: {}
 components:
-  schemas:
-    book:
-      type: object
-      properties:
-        title:
-          type: string
-          description: The title of the book
-          example: The Catcher in the Rye
-        author:
-          type: string
-          description: The author of the book
-          example: J.D. Salinger
-        publication_date:
-          type: string
-          description: The publication date of the book
-          example: 1951-07-16
-      required:
-      - title
-      - author
-      description: A book in the library.
-  parameters:
-    bookId:
-      bookId:
-        name: id
-        in: path
-        description: The unique identifier of the book
-        required: true
-        schema:
-          type: string
-          example: b1c4d2e5
-  responses:
-    success:
-      200:
-        description: Success
-        content:
-          application/json:
-            schema:
-              $ref: schemas/book.yaml
+  schemas: {}
+  parameters: {}
+  responses: {}
   headers: {}
   requestBodies: {}
   securitySchemes: {}
-tags:
-- name: Books
-  description: Operations related to books
-servers:
-- url: https://example.com/api
-  description: Production server
-  variables: null
+tags: []
+servers: []
