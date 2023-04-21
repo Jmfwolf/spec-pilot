@@ -3,32 +3,30 @@ info:
   title: Library API
   description: An API to manage books and shelves in a digital library
   version: 1.0.0
-  contact:
-    contact:
-      name: Library API Support
-      url: https://example.com/support
-      email: support@example.com
   license:
-    license:
-      name: Apache 2.0
-      url: https://www.apache.org/licenses/LICENSE-2.0
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: Library API Support
+    url: https://example.com/support
+    email: support@example.com
 paths:
-  /books: null
-  post:
-    summary: Create a new book
-    description: Creates a new book in the library
-    operationId: createBook
-    tags:
-    - Books
-    parameters:
-    - $ref: '#/components/parameters/bookId'
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Book'
-    responses: null
+  /books:
+    post:
+      summary: Create a new book
+      description: Creates a new book in the library
+      operationId: createBook
+      tags:
+      - Books
+      parameters:
+      - $ref: '#/components/parameters/bookId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/book'
+      responses:
 components:
   schemas:
     book:
@@ -52,14 +50,12 @@ components:
       description: A book in the library.
   parameters:
     bookId:
-      bookId:
-        name: id
-        in: path
-        description: The unique identifier of the book
-        required: true
-        schema:
-          type: string
-          example: b1c4d2e5
+      name: bookId
+      in: path
+      description: The unique identifier of the book
+      required: true
+      schema:
+        type: integer
   responses:
     success:
       200:

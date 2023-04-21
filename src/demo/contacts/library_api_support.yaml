@@ -1,4 +1,3 @@
-contact:
-  name: Library API Support
-  url: https://example.com/support
-  email: support@example.com
+name: Library API Support
+url: https://example.com/support
+email: support@example.com
