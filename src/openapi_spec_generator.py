@@ -244,5 +244,6 @@ def demo():
 
     generate_info(info_context, os.path.join(f"{project_name}/info", 'info.yaml'), version='v3.0')
 
-demo()
-generate_openapi_spec("demo")
+if __file__ == "__main__":
+    demo()
+    generate_openapi_spec("demo")
