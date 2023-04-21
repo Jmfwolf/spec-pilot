@@ -2,6 +2,10 @@
 
 Spec-pilot is a project that uses Natural Language Processing (NLP) to help create OpenAPI specifications. It consists of two main parts: a spec generator and a spec parser. The spec generator provides templates for creating different parts of an OpenAPI specification, while the spec parser uses NLP to parse natural language input and modify the OpenAPI specification accordingly.
 
+## Documentation
+
+Information on spec-pilot's integrations, roadmap, and other features can be found in the [documentation](./docs/index.md)\
+
 ## Installation
 
 To use spec-pilot, you must have Python 3 installed on your machine. Clone the repository from GitHub and install the required packages by running the following command in the project directory:
