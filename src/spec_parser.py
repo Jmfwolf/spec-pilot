@@ -1,30 +1,98 @@
-import re
+import spacy
+import json
 
-def parse_filters(object_schema):
-    filterable_fields = ['name', 'id', 'status', 'category', 'tags', 'location', 'price', 'quantity', 'author', 'created_at', 'updated_at', 'start_date', 'end_date', 'duration', 'rating', 'language', 'size', 'format', 'type', 'genre', 'artist', 'album', 'year', 'publisher', 'author_name', 'author_email', 'author_role', 'username', 'email', 'is_active', 'is_admin', 'is_verified', 'is_public', 'is_featured', 'is_draft', 'is_published', 'has_image', 'has_video', 'has_audio', 'has_attachment', 'keyword']
-    
-    filters = []
-    for field_name, field in object_schema['properties'].items():
-        if 'properties' in field:
-            # Recursive call for sub-resources
-            filters += parse_filters(field)
-        elif field_name in filterable_fields:
-            # Find matches for filterable fields using regex
-            pattern = re.compile(f'({field_name})(_[a-zA-Z0-9_]+)?(_(gte|gt|lte|lt))?')
-            matches = pattern.findall(field_name)
-            for match in matches:
-                param_name = match[0] + (match[1] if match[1] else '') + (match[2] if match[2] else '')
-                param_type = 'integer' if field['type'] == 'integer' else 'string'
-                filters.append({
-                    'parameterName': param_name,
-                    'name': field_name,
-                    'in': 'query',
-                    'description': field.get('description', ''),
-                    'required': False,
-                    'schema': {
-                        'type': param_type,
-                        'example': field.get('example', None)
+def identify_action(doc):
+    for token in doc:
+        if token.dep_ == "ROOT":
+            return token.lemma_
+    return None
+
+def identify_target(doc):
+    for token in doc:
+        if token.dep_ == "dobj":
+            return token.lemma_
+    return None
+
+def identify_property(doc):
+    for token in doc:
+        if token.dep_ in ["compound", "nmod"]:
+            return token.text.strip("'")
+    return None
+
+
+def modify_openapi_asset(openapi_spec, action, target, property_name, value=None):
+    if action == "add":
+        if target == "schema":
+            if "components" not in openapi_spec:
+                openapi_spec["components"] = {}
+            if "schemas" not in openapi_spec["components"]:
+                openapi_spec["components"]["schemas"] = {}  # Added colon
+            if property_name not in openapi_spec["components"]["schemas"]:
+                openapi_spec["components"]["schemas"][property_name] = {"type": "object", "properties": {}}  # Added colon
+            openapi_spec["components"]["schemas"][property_name]["properties"][value["name"]] = value
+        elif target == "parameter":
+            openapi_spec["components"]["parameters"][property_name] = value
+    elif action == "update":
+        if target == "schema":
+            openapi_spec["components"]["schemas"][property_name]["default"] = value
+        elif target == "parameter":
+            openapi_spec["components"]["parameters"][property_name]["default"] = value
+    elif action == "remove":
+        if target == "schema":
+            openapi_spec["components"]["schemas"][property_name].pop("required", None)
+        elif target == "parameter":
+            openapi_spec["components"]["parameters"][property_name].pop("required", None)
+    return openapi_spec
+
+
+def process_natural_language_input(input_text, openapi_spec):
+    nlp = spacy.load("en_core_web_sm")
+    doc = nlp(input_text)
+
+    action = identify_action(doc)
+    target = identify_target(doc)
+    property_name = identify_property(doc)
+    value = {"name": property_name, "type": "string", "description": ""}  # Update this line to pass the property_name correctly
+
+    print(f"action: {action}")  # Debugging
+    print(f"target: {target}")  # Debugging
+    print(f"property_name: {property_name}")  # Debugging
+
+    if action and target and property_name:
+        modified_openapi_spec = modify_openapi_asset(openapi_spec, action, target, property_name, value)
+        return modified_openapi_spec
+    else:
+        return None
+
+# Example OpenAPI specification
+openapi_spec = {
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
                     }
-                })
-    
-    return filters
+                }
+            }
+        },
+        "parameters": {
+            "userId": {
+                "in": "query",
+                "name": "userId",
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        },
+        "responses": {},
+        "tags": []
+    }
+}
+
+# Example input
+input_text = "add a 'description' field to the schema User"
+modified_openapi_spec = process_natural_language_input(input_text, openapi_spec)
+
+print(json.dumps(modified_openapi_spec, indent=2))
