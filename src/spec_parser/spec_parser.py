@@ -1,117 +1,69 @@
 import spacy
-import json
 
-def identify_action(doc):
-    for token in doc:
-        if token.dep_ == "ROOT":
-            return token
-    return None
+nlp = spacy.load("en_core_web_sm")
 
 
-def identify_target(doc, action_token):
+def process_natural_language_input(sentence):
+    doc = nlp(sentence)
+
+    # Extract relevant information from the sentence
+    command, target, details = extract_command_target_details(doc)
+
+    # Perform the appropriate action based on the extracted information
+    perform_action(command, target, details)
+
+
+def extract_command_target_details(doc):
+    command = None
     target = None
-    target_schema_name = None
+    details = {}
+
     for token in doc:
-        if token.dep_ == "dobj" and token.head == action_token:
-            if token.lemma_ == "field":
-                # Look for the word "schema" after the action word
-                for next_token in doc[token.i + 1:]:
-                    if next_token.lemma_ == "schema":
-                        target = next_token.lemma_
+        # Extract command
+        if token.dep_ == "ROOT":
+            command = token.lemma_
+
+        # Extract target
+        if token.dep_ in ["dobj", "attr"]:
+            target = token.lemma_
+
+        # Extract additional details (e.g., adjectives, compound nouns)
+        if token.dep_ in ["amod", "compound"]:
+            if token.head.lemma_ not in details:
+                details[token.head.lemma_] = []
+            details[token.head.lemma_].append(token.lemma_)
+
+    return command, target, details
+
+
+def perform_action(command, target, details):
+    if command == "initialize":
+        if target == "project":
+            project_name = details.get("name", [None])[0]
+            if project_name:
+                generator.init_project(project_name)
             else:
-                target = token.lemma_
-        if token.dep_ == "pobj" and token.head.head == action_token and token.head.lemma_ == "to":
-            target_schema_name = token.text
-    return target, target_schema_name
+                print("Please specify a project name.")
+        else:
+            print(f"Unsupported target for command '{command}': {target}")
 
+    elif command == "add" or command == "update" or command == "remove":
+        if target == "schema" or target == "parameter":
+            component_name = details.get("name", [None])[0]
+            property_name = details.get("property", [None])[0]
+            value = details.get("value", [None])[0]
 
-
-def identify_property(doc):
-    for token in doc:
-        if token.dep_ in ["compound", "nmod"]:
-            return token.text.strip("'")
-    return None
-
-
-def modify_openapi_asset(openapi_spec, action, target, property_name, value=None, target_schema_name=None):
-    if action == "add":
-        if target == "schema":
-            schema = openapi_spec["components"]["schemas"][target_schema_name]
-            if "properties" not in schema:
-                schema["properties"] = {}
-            if property_name not in schema["properties"]:
-                schema["properties"][property_name] = {"type": "string"}
-            schema["properties"][property_name]["description"] = value
-            if target_schema_name in openapi_spec["components"]["schemas"]:
-                openapi_spec["components"]["schemas"][target_schema_name]["properties"][property_name] = value
+            if component_name and property_name:
+                if command == "add":
+                    generator.add_component_property(target, component_name, property_name, value)
+                elif command == "update":
+                    generator.update_component_property(target, component_name, property_name, value)
+                elif command == "remove":
+                    generator.remove_component_property(target, component_name, property_name)
             else:
-                openapi_spec["components"]["schemas"][target_schema_name] = {
-                    "type": "object",
-                    "properties": {property_name: value},
-                }
-        elif target == "parameter":
-            openapi_spec["components"]["parameters"][property_name] = value
-    elif action == "update":
-        if target == "schema":
-            openapi_spec["components"]["schemas"][property_name]["default"] = value
-        elif target == "parameter":
-            openapi_spec["components"]["parameters"][property_name]["default"] = value
-    elif action == "remove":
-        if target == "schema":
-            openapi_spec["components"]["schemas"][property_name].pop("required", None)
-        elif target == "parameter":
-            openapi_spec["components"]["parameters"][property_name].pop("required", None)
-    return openapi_spec
+                print("Please specify both the component name and property name.")
+        else:
+            print(f"Unsupported target for command '{command}': {target}")
 
-
-def process_natural_language_input(input_text, openapi_spec):
-    nlp = spacy.load("en_core_web_sm")
-    doc = nlp(input_text)
-
-    action_token = identify_action(doc)
-    target, target_schema_name = identify_target(doc, action_token)
-    property_name = identify_property(doc)
-    
-    if 'description' in input_text:
-        value = input_text.split('description')[1].strip("'\"")  # Extract the description value from the input text
     else:
-        value = None
-
-    if action_token and target and property_name:
-        modified_openapi_spec = modify_openapi_asset(openapi_spec, action_token.lemma_, target, property_name, value, target_schema_name)
-        return modified_openapi_spec
-    else:
-        return None
-
-# Example OpenAPI specification
-openapi_spec = {
-    "components": {
-        "schemas": {
-            "User": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "parameters": {
-            "userId": {
-                "in": "query",
-                "name": "userId",
-                "schema": {
-                    "type": "integer"
-                }
-            }
-        },
-        "responses": {},
-        "tags": []
-    }
-}
-
-# Example input
-#input_text = "add a 'description' field to the schema User"
-#modified_openapi_spec = process_natural_language_input(input_text, openapi_spec)
-
-#print(json.dumps(modified_openapi_spec, indent=2))
+        print(f"Unsupported command: {command}")
