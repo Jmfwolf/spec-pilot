@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 The spec generator consists of several modules in the src/ directory, each of which provides functions for generating different parts of an OpenAPI specification. The templates/ directory contains Mustache templates used by the generator. Here are the main modules:
 
-**openapi_spec_generator.py**: 
+**openapi_spec_generator.py**:
 This module contains functions for generating various parts of an OpenAPI spec, including schemas, paths, parameters, responses, tags, servers, contacts, and licenses. To use this module, import the relevant function and provide the necessary arguments. For example, to generate a schema for a v3.0 OpenAPI specification, you would use the following code:
 
 ```python
