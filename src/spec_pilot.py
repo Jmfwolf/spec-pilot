@@ -2,7 +2,7 @@ import argparse
 import os
 import sys
 import json
-from generator import init_project, generate_openapi_spec
+from generator import init_project, generate_openapi_spec, demo
 from spec_parser import process_natural_language_input
 
 def main():
@@ -11,6 +11,7 @@ def main():
                         help="Initialize a new OpenAPI project with the specified project name")
     parser.add_argument("--generate", metavar="project_name",
                         help="Generate the OpenAPI specification for the specified project")
+    parser.add_argument("--demo", help="Generate the OpenAPI specification for the specified project", action="store_true")
     parser.add_argument("--nlp", metavar="input_text",
                         help="Process a natural language input to modify the OpenAPI specification")
 
@@ -20,6 +21,8 @@ def main():
         init_project(args.init)
     elif args.generate:
         generate_openapi_spec(args.generate)
+    elif args.demo:
+        demo()
     elif args.nlp:
         if not os.path.exists("openapi_spec.json"):
             sys.exit("Error: openapi_spec.json not found. Please provide an existing OpenAPI specification to modify.")
