@@ -16,7 +16,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="spec_pilot",
-    version="0.1.1",
+    version="0.2.0",
     author="jmfwolf",
     author_email="jmfwolf@hacksomniac.com",
     description="A tool to generate OpenAPI specifications using natural language",
