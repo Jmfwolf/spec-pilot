@@ -2,7 +2,7 @@ import argparse
 import os
 import sys
 import json
-from generator import init_project, generate_openapi_spec, demo
+from generator import init_project, generate_openapi_spec, demo, render_template
 from spec_parser import process_natural_language_input
 from validator import vacuum
 
@@ -11,14 +11,16 @@ def main():
     parser = argparse.ArgumentParser(description="Spec-Pilot: Generate OpenAPI specifications using natural language")
     parser.add_argument("--init", metavar="project_name",
                         help="Initialize a new OpenAPI project with the specified project name")
-    parser.add_argument("--generate", metavar="project_name",
+    parser.add_argument("-g", "--generate", metavar="project_name",
                         help="Generate the OpenAPI specification for the specified project")
-    parser.add_argument("--demo", help="Generate the OpenAPI specification for the specified project",
+    parser.add_argument("--demo", help="Demonstration project",
                         action="store_true")
     parser.add_argument("--nlp", metavar="input_text",
                         help="Process a natural language input to modify the OpenAPI specification")
-    parser.add_argument("--validate", metavar="spec_file",
+    parser.add_argument("-v", "--validate", metavar="spec_file",
                         help="Validate the provided OpenAPI specification file")
+    parser.add_argument("-c", "--create", nargs=3, metavar=("template", "asset_name", "output_path"),
+                        help="Create a new OpenAPI asset from the specified template with the given asset_name and save it to the output_path")
 
     args = parser.parse_args()
 
@@ -28,6 +30,9 @@ def main():
         generate_openapi_spec(args.generate)
     elif args.demo:
         demo()
+    elif args.create:
+        template, asset_name, output_path = args.create
+        render_template(template, asset_name, output_path)
     elif args.nlp:
         if not os.path.exists("openapi_spec.json"):
             sys.exit("Error: openapi_spec.json not found. Please provide an existing OpenAPI specification to modify.")
