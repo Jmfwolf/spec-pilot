@@ -1,5 +1,14 @@
 title: {{title}}
 description: {{description}}
 version: {{version}}
-{{> contact}}
-{{> license}}
+{{#contact}}
+contact:
+    name: {{name}}
+    url: {{url}}
+    email: {{email}}
+{{/contact}}
+{{#license}}
+license:
+    name: {{name}}
+    url: {{url}}
+{{/license}}

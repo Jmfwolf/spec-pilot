@@ -12,8 +12,6 @@ def init_project(project_name):
     os.mkdir(os.path.join(project_name, "responses"))
     os.mkdir(os.path.join(project_name, "tags"))
     os.mkdir(os.path.join(project_name, "servers"))
-    os.mkdir(os.path.join(project_name, "contacts"))
-    os.mkdir(os.path.join(project_name, "licenses"))
     os.mkdir(os.path.join(project_name, "info"))
     #openapi_file_path = os.path.join(project_name, "openapi.yml")
     #open(openapi_file_path, "w").close()
@@ -65,14 +63,6 @@ def generate_tag(context, output_file='tag.yaml', version='v2.0'):
 def generate_server(context, output_file='server.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/server.mustache", context, output_file)
-
-def generate_contact(context, output_file='contact.yaml', version='v2.0'):
-    check_version(version)
-    render_template(f"templates/{version}/contact.mustache", context, output_file)
-
-def generate_license(context, output_file='license.yaml', version='v2.0'):
-    check_version(version)
-    render_template(f"templates/{version}/license.mustache", context, output_file)
     
 def generate_openapi_spec(project_name, version='v3.0', output_file='openapi_spec.yaml'):
     check_version(version)
@@ -142,27 +132,6 @@ def demo():
     generate_schema(schema_context, os.path.join(f"{project_name}/schemas", 'book.yaml'), version='v3.0')
 
     path_object_context = {
-        'path': '/books',
-        'httpMethod': 'post',
-        'summary': 'Create a new book',
-        'description': 'Creates a new book in the library',
-        'operationId': 'createBook',
-        'tags': ['Books'],
-        'requestBodyDescription': 'Book object to be created',
-        'requestBodyRequired': True,
-        'mediaType': 'application/json',
-        'schemaName': 'Book',
-        'schemaFile': '#/components/schemas/book',
-        'responses': [
-            {
-                'statusCode': '201',
-                'description': 'Book successfully created',
-                'mediaType': 'application/json',
-                'schemaName': 'Book',
-                'schemaFile': '#/components/schemas/book',
-                'example': {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'publication_date': '1951-07-16'}
-            }
-        ],
         'path': '/books/{bookId}',
         'httpMethod': 'get',
         'summary': 'get a book',
@@ -172,7 +141,7 @@ def demo():
         'parameters': [
             {
                 'parameterName': 'bookId',
-                'name': 'id',
+                'name': 'bookId',
                 'in': 'path',
                 'description': 'The unique identifier of the book',
                 'required': True,
@@ -184,14 +153,14 @@ def demo():
         'requestBodyDescription': 'Book object to be created',
         'requestBodyRequired': True,
         'mediaType': 'application/json',
-        'schemaName': 'Book',
+        'schemaName': 'book',
         'schemaFile': '#/components/schemas/book',
         'responses': [
             {
                 'statusCode': '201',
                 'description': 'Book successfully created',
                 'mediaType': 'application/json',
-                'schemaName': 'Book',
+                'schemaName': 'book',
                 'schemaFile': '#/components/schemas/book',
                 'example': {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'publication_date': '1951-07-16'}
             }
@@ -201,7 +170,7 @@ def demo():
 
     parameter_context = {
         'parameterName': 'bookId',
-        'name': 'id',
+        'name': 'bookId',
         'in': 'path',
         'description': 'The unique identifier of the book',
         'required': True,
@@ -225,26 +194,13 @@ def demo():
             'url': 'https://www.apache.org/licenses/LICENSE-2.0'
         }
     }
-    contact_context = {
-    'name': 'Library API Support',
-    'url': 'https://example.com/support',
-    'email': 'support@example.com'
-    }
-
-    generate_contact(contact_context, os.path.join(f"{project_name}/contacts", 'library_api_support.yaml'), version='v3.0')
-
-    license_context = {
-        'name': 'Apache 2.0',
-        'url': 'https://www.apache.org/licenses/LICENSE-2.0'
-    }
-
-    generate_license(license_context, os.path.join(f"{project_name}/licenses", 'apache_2.0.yaml'), version='v3.0')
 
     responses_context = {
         'statusCode': '200',
         'description': 'Success',
         'mediaType': 'application/json',
-        'schemaName': 'Book',
+        'schemaName': 'book',
+        'message': 'book created',
         'schemaFile': os.path.join('schemas', 'book.yaml'),
         'example': {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'publication_date': '1951-07-16'}
     }

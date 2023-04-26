@@ -1,6 +1,12 @@
-{{statusCode}}:
   description: {{description}}
   content:
     {{mediaType}}:
       schema:
-        $ref: '{{schemaFile}}'
+        type: object
+        properties:
+          code:
+            type: integer
+            example: {{statusCode}}
+          message:
+            type: string
+            example: {{message}}
