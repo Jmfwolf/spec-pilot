@@ -1,101 +1,74 @@
 # Spec-Pilot
 
-Spec-Pilot is a command-line tool that simplifies the creation and management of OpenAPI specifications using natural language processing (NLP). With Spec-Pilot, you can easily generate, modify, and validate OpenAPI specifications without the need for complex manual editing.
-
-- [Spec-Pilot](#spec-pilot)
-  - [Features](#features)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
-  - [Usage](#usage)
-    - [Initialize a new OpenAPI project](#initialize-a-new-openapi-project)
-    - [Generate OpenAPI specifications](#generate-openapi-specifications)
-    - [Run a demo](#run-a-demo)
-    - [Modify OpenAPI specifications using natural language input](#modify-openapi-specifications-using-natural-language-input)
-    - [Validate OpenAPI specification files](#validate-openapi-specification-files)
-  - [License](#license)
-  - [Contributing](#contributing)
-  - [Support](#support)
+Spec-Pilot is a Python package that allows you to generate OpenAPI specifications using natural language. It simplifies the process of creating API documentation by allowing users to describe the API using everyday language.
 
 ## Features
 
-- Initialize a new OpenAPI project with a given project name.
-- Generate OpenAPI specifications for a specified project.
-- Modify OpenAPI specifications using natural language input.
-- Validate OpenAPI specifications using the integrated validator.
-- Simple command-line interface.
-
-## Requirements
-
-- Python 3.6 or higher
+- Initialize new OpenAPI projects with ease.
+- Generate OpenAPI specifications from natural language input.
+- Modify existing OpenAPI specifications using natural language.
+- Validate generated OpenAPI specifications.
+- Demo functionality available to test the package.
 
 ## Installation
 
-Clone the repository to your local machine:
+To install Spec-Pilot, run:
 
 ```bash
-git clone https://github.com/jmfwolf/spec-pilot.git
-cd spec-pilot
+pip install spec-pilot
 ```
 
-(Optional) Create a virtual environment and activate it:
+After installing Spec-Pilot, you also need to download the spaCy language model:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-Install the required Python packages:
-
-```bash
-pip install -r requirements.txt
+python -m spacy download en_core_web_sm
 ```
 
 ## Usage
 
-To see the available options, run:
+Once installed, you can use Spec-Pilot from the command line or as a Python package.
+
+### Command Line Usage
+
+Initialize a new OpenAPI project:
 
 ```bash
-python spec_pilot.py --help
+spec-pilot --init project_name
 ```
 
-### Initialize a new OpenAPI project
+Generate the OpenAPI specification for an existing project:
 
 ```bash
-python spec_pilot.py --init project_name
+spec-pilot --generate project_name
 ```
 
-### Generate OpenAPI specifications
+Modify an OpenAPI specification with natural language input:
 
 ```bash
-python spec_pilot.py --generate project_name
+spec-pilot --nlp "Add a GET endpoint /users that returns a list of users"
 ```
 
-### Run a demo
+### Python Package Usage
 
-```bash
-python spec_pilot.py --demo
-```
+You can also use Spec-Pilot as a Python package in your own projects:
 
-### Modify OpenAPI specifications using natural language input
+```python
+from spec_pilot.generator import init_project, generate_openapi_spec
+from spec_pilot.spec_parser import process_natural_language_input
 
-```bash
-python spec_pilot.py --nlp "Add a new endpoint /users that supports GET method"
-```
+# Initialize a new OpenAPI project
+init_project("project_name")
 
-### Validate OpenAPI specification files
+# Generate the OpenAPI specification for an existing project
+generate_openapi_spec("project_name")
 
-```bash
-python spec_pilot.py --validate openapi_spec.yaml
+# Modify an OpenAPI specification with natural language input
+with open("openapi_spec.json", "r") as f:
+    openapi_spec = json.load(f)
+
+modified_openapi_spec = process_natural_language_input("Add a GET endpoint /users that returns a list of users", openapi_spec)
 ```
 
 ## License
 
-Spec-Pilot is released under the GNU General Public License v3.0.
-
-## Contributing
-
-Contributions are welcome! Please read the contributing guidelines for more information.
-
-## Support
-
-If you have any questions, issues, or feature requests, please submit an issue.
+Spec-Pilot is released under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
