@@ -1,80 +1,101 @@
-# spec-pilot
+# Spec-Pilot
 
-## Description
+Spec-Pilot is a command-line tool that simplifies the creation and management of OpenAPI specifications using natural language processing (NLP). With Spec-Pilot, you can easily generate, modify, and validate OpenAPI specifications without the need for complex manual editing.
 
-Spec-pilot is a project that uses Natural Language Processing (NLP) to help create OpenAPI specifications. It consists of two main parts: a spec generator and a spec parser. The spec generator provides templates for creating different parts of an OpenAPI specification, while the spec parser uses NLP to parse natural language input and modify the OpenAPI specification accordingly.
+- [Spec-Pilot](#spec-pilot)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Initialize a new OpenAPI project](#initialize-a-new-openapi-project)
+    - [Generate OpenAPI specifications](#generate-openapi-specifications)
+    - [Run a demo](#run-a-demo)
+    - [Modify OpenAPI specifications using natural language input](#modify-openapi-specifications-using-natural-language-input)
+    - [Validate OpenAPI specification files](#validate-openapi-specification-files)
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Support](#support)
 
-## Documentation
+## Features
 
-Information on spec-pilot's integrations, roadmap, and other features can be found in the [documentation](./docs/index.md)
+- Initialize a new OpenAPI project with a given project name.
+- Generate OpenAPI specifications for a specified project.
+- Modify OpenAPI specifications using natural language input.
+- Validate OpenAPI specifications using the integrated validator.
+- Simple command-line interface.
+
+## Requirements
+
+- Python 3.6 or higher
 
 ## Installation
 
-To use spec-pilot, you must have Python 3 installed on your machine. Clone the repository from GitHub and install the required packages by running the following command in the project directory:
+Clone the repository to your local machine:
 
-```sh
+```bash
+git clone https://github.com/jmfwolf/spec-pilot.git
+cd spec-pilot
+```
+
+(Optional) Create a virtual environment and activate it:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Install the required Python packages:
+
+```bash
 pip install -r requirements.txt
 ```
 
 ## Usage
 
-### Spec Generator
+To see the available options, run:
 
-The spec generator consists of several modules in the src/ directory, each of which provides functions for generating different parts of an OpenAPI specification. The templates/ directory contains Mustache templates used by the generator. Here are the main modules:
-
-**openapi_spec_generator.py**:
-This module contains functions for generating various parts of an OpenAPI spec, including schemas, paths, parameters, responses, tags, servers, contacts, and licenses. To use this module, import the relevant function and provide the necessary arguments. For example, to generate a schema for a v3.0 OpenAPI specification, you would use the following code:
-
-```python
-
-from spec_pilot import generate_schema
-
-context = {
-    "schema_name": "MySchema",
-    "schema_properties": {
-        "property1": {"type": "string"},
-        "property2": {"type": "integer"}
-    }
-}
-
-generate_schema(context, output_file="myschema.yaml", version="v3.0")
+```bash
+python spec_pilot.py --help
 ```
 
-### Spec Parser
+### Initialize a new OpenAPI project
 
-The spec parser uses NLP to parse natural language input and modify an existing OpenAPI specification accordingly. The spec_parser.py module provides functions for this purpose. To use the spec parser, import the relevant function and provide a natural language input and the current state of the OpenAPI specification. For example, to add a property to a schema in the OpenAPI specification, you would use the following code:
-
-```python
-from spec_pilot import process_natural_language_input
-
-input_text = "Add a 'description' property to the 'MySchema' schema"
-openapi_spec = {"components": {"schemas": {"MySchema": {"type": "object", "properties": {}}}}}
-
-modified_spec = process_natural_language_input(input_text, openapi_spec)
+```bash
+python spec_pilot.py --init project_name
 ```
 
-## Validator
+### Generate OpenAPI specifications
 
-This project will be using [vacuum linter](https://quobix.com/vacuum/)
-If it is not present, there are two options
-Either via a docker container
-
-```sh
-docker dshanley/vacuum lint <my-openapi-spec.yaml>
+```bash
+python spec_pilot.py --generate project_name
 ```
 
-or curl
+### Run a demo
 
-```sh
-curl -fsSL https://quobix.com/scripts/install_vacuum.sh | sh 
+```bash
+python spec_pilot.py --demo
 ```
 
-[Customized rulesets](./lint-rulesets/) can be fed to the linter, this implementation is significantly faster than any linter in js or python
+### Modify OpenAPI specifications using natural language input
 
-## Contributing
+```bash
+python spec_pilot.py --nlp "Add a new endpoint /users that supports GET method"
+```
 
-If you would like to contribute to spec-pilot, please fork the repository and submit a pull request with your changes. Please make sure to include tests and update the documentation as necessary.
+### Validate OpenAPI specification files
+
+```bash
+python spec_pilot.py --validate openapi_spec.yaml
+```
 
 ## License
 
-Spec-pilot is licensed under the GNU General Public License v3.0. See LICENSE.txt for more information.
+Spec-Pilot is released under the GNU General Public License v3.0.
+
+## Contributing
+
+Contributions are welcome! Please read the contributing guidelines for more information.
+
+## Support
+
+If you have any questions, issues, or feature requests, please submit an issue.
