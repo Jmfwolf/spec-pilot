@@ -2,6 +2,7 @@ import pystache
 import os
 import yaml
 
+
 def init_project(project_name):
     if project_name == "":
         project_name = input("Enter project name: ")
@@ -13,8 +14,9 @@ def init_project(project_name):
     os.mkdir(os.path.join(project_name, "tags"))
     os.mkdir(os.path.join(project_name, "servers"))
     os.mkdir(os.path.join(project_name, "info"))
-    #openapi_file_path = os.path.join(project_name, "openapi.yml")
-    #open(openapi_file_path, "w").close()
+    # openapi_file_path = os.path.join(project_name, "openapi.yml")
+    # open(openapi_file_path, "w").close()
+
 
 def render_template(template_file, context, output_file):
     with open(template_file, 'r') as f:
@@ -24,46 +26,57 @@ def render_template(template_file, context, output_file):
     with open(output_file, 'w') as f:
         f.write(rendered)
 
+
 def check_version(version):
     if version != 'v2.0' and version != 'v3.0':
         raise ValueError("Version must be either 'v2.0' or 'v3.0'")
+
 
 def generate_schema(context, output_file='schema.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/schema.mustache", context, output_file)
 
+
 def generate_path_object(context, output_file='path_object.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/path_object.mustache", context, output_file)
+
 
 def generate_parameter(context, output_file='parameter.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/parameter.mustache", context, output_file)
 
+
 def generate_info(context, output_file='info.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/info.mustache", context, output_file)
+
 
 def generate_header(context, output_file='header.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/header.mustache", context, output_file)
 
+
 def generate_media_type(context, output_file='media_type.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/media_type.mustache", context, output_file)
+
 
 def generate_response(context, output_file='response.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/response.mustache", context, output_file)
 
+
 def generate_tag(context, output_file='tag.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/tag.mustache", context, output_file)
 
+
 def generate_server(context, output_file='server.yaml', version='v2.0'):
     check_version(version)
     render_template(f"templates/{version}/server.mustache", context, output_file)
-    
+
+
 def generate_openapi_spec(project_name, version='v3.0', output_file='openapi_spec.yaml'):
     check_version(version)
 
@@ -113,6 +126,7 @@ def generate_openapi_spec(project_name, version='v3.0', output_file='openapi_spe
     with open(os.path.join(project_name, output_file), 'w') as f:
         yaml.dump(openapi_spec, f, sort_keys=False, default_flow_style=False)
 
+
 def demo():
     # Example usage
     project_name = "demo"
@@ -121,9 +135,11 @@ def demo():
         'schemaName': 'Book',
         'type': 'object',
         'properties': [
-            {'name': 'title', 'type': 'string', 'description': 'The title of the book', 'example': 'The Catcher in the Rye'},
+            {'name': 'title', 'type': 'string', 'description': 'The title of the book',
+             'example': 'The Catcher in the Rye'},
             {'name': 'author', 'type': 'string', 'description': 'The author of the book', 'example': 'J.D. Salinger'},
-            {'name': 'publication_date', 'type': 'string', 'description': 'The publication date of the book', 'example': '1951-07-16', 'format': 'date'}
+            {'name': 'publication_date', 'type': 'string', 'description': 'The publication date of the book',
+             'example': '1951-07-16', 'format': 'date'}
         ],
         'required': ['title', 'author'],
         'description': 'A book in the library.'
@@ -162,7 +178,8 @@ def demo():
                 'mediaType': 'application/json',
                 'schemaName': 'book',
                 'schemaFile': '#/components/schemas/book',
-                'example': {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'publication_date': '1951-07-16'}
+                'example': {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger',
+                            'publication_date': '1951-07-16'}
             }
         ]
     }
@@ -223,4 +240,3 @@ def demo():
 
     generate_info(info_context, os.path.join(f"{project_name}/info", 'info.yaml'), version='v3.0')
     generate_openapi_spec("demo")
-
