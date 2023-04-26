@@ -120,7 +120,7 @@ def generate_openapi_spec(project_name, version='v3.0', output_file='openapi_spe
                 elif subdir.endswith("licenses"):
                     openapi_spec['info']['license'] = content
 
-    with open(output_file, 'w') as f:
+    with open(os.path.join(project_name, output_file), 'w') as f:
         yaml.dump(openapi_spec, f, sort_keys=False, default_flow_style=False)
 
 def demo():
@@ -148,6 +148,27 @@ def demo():
         'description': 'Creates a new book in the library',
         'operationId': 'createBook',
         'tags': ['Books'],
+        'requestBodyDescription': 'Book object to be created',
+        'requestBodyRequired': True,
+        'mediaType': 'application/json',
+        'schemaName': 'Book',
+        'schemaFile': '#/components/schemas/book',
+        'responses': [
+            {
+                'statusCode': '201',
+                'description': 'Book successfully created',
+                'mediaType': 'application/json',
+                'schemaName': 'Book',
+                'schemaFile': '#/components/schemas/book',
+                'example': {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'publication_date': '1951-07-16'}
+            }
+        ],
+        'path': '/books/{bookId}',
+        'httpMethod': 'get',
+        'summary': 'get a book',
+        'description': 'get book from the library',
+        'operationId': 'getBook',
+        'tags': ['Books'],
         'parameters': [
             {
                 'parameterName': 'bookId',
@@ -164,14 +185,14 @@ def demo():
         'requestBodyRequired': True,
         'mediaType': 'application/json',
         'schemaName': 'Book',
-        'schemaFile': '#/components/schemas/Book',
+        'schemaFile': '#/components/schemas/book',
         'responses': [
             {
                 'statusCode': '201',
                 'description': 'Book successfully created',
                 'mediaType': 'application/json',
                 'schemaName': 'Book',
-                'schemaFile': '#/components/schemas/Book',
+                'schemaFile': '#/components/schemas/book',
                 'example': {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'publication_date': '1951-07-16'}
             }
         ]

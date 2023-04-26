@@ -4,6 +4,7 @@ import sys
 import json
 from generator import init_project, generate_openapi_spec, demo
 from spec_parser import process_natural_language_input
+from validator import vacuum
 
 def main():
     parser = argparse.ArgumentParser(description="Spec-Pilot: Generate OpenAPI specifications using natural language")
@@ -14,6 +15,8 @@ def main():
     parser.add_argument("--demo", help="Generate the OpenAPI specification for the specified project", action="store_true")
     parser.add_argument("--nlp", metavar="input_text",
                         help="Process a natural language input to modify the OpenAPI specification")
+    parser.add_argument("--validate", metavar="spec_file",
+                        help="Validate the provided OpenAPI specification file")
 
     args = parser.parse_args()
 
@@ -37,6 +40,8 @@ def main():
                 json.dump(modified_openapi_spec, f, indent=2)
         else:
             print("Error: Unable to process the provided natural language input.")
+    elif args.validate:
+        vacuum(["validate", args.validate])
 
 if __name__ == "__main__":
     main()
