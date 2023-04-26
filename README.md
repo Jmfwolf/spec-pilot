@@ -1,21 +1,21 @@
 # Spec-Pilot
 
-Spec-Pilot is a Python package that allows you to generate OpenAPI specifications using natural language. It simplifies the process of creating API documentation by allowing users to describe the API using everyday language.
+Spec-Pilot is a command-line tool and Python package that helps generate, modify, and validate OpenAPI specifications using natural language processing (NLP). It simplifies the creation and management of OpenAPI projects, making it more accessible to developers and non-developers alike.
 
 ## Features
 
-- Initialize new OpenAPI projects with ease.
-- Generate OpenAPI specifications from natural language input.
-- Modify existing OpenAPI specifications using natural language.
-- Validate generated OpenAPI specifications.
-- Demo functionality available to test the package.
+- Initialize new OpenAPI projects
+- Generate OpenAPI specifications
+- Modify OpenAPI specifications using natural language
+- Validate OpenAPI specifications
+- Create OpenAPI assets from templates
 
 ## Installation
 
-To install Spec-Pilot, run:
+You can install Spec-Pilot using pip:
 
 ```bash
-pip install spec-pilot
+pip install spec_pilot
 ```
 
 After installing Spec-Pilot, you also need to download the spaCy language model:
@@ -24,50 +24,77 @@ After installing Spec-Pilot, you also need to download the spaCy language model:
 python -m spacy download en_core_web_sm
 ```
 
-## Usage
+## CLI Usage
 
-Once installed, you can use Spec-Pilot from the command line or as a Python package.
+To use Spec-Pilot as a command-line tool, run the following commands:
 
-### Command Line Usage
-
-Initialize a new OpenAPI project:
+- Initialize a new OpenAPI project:
 
 ```bash
-spec-pilot --init project_name
+spec_pilot --init project_name
 ```
 
-Generate the OpenAPI specification for an existing project:
+- Generate the OpenAPI specification for a specific project:
 
 ```bash
-spec-pilot --generate project_name
+spec_pilot --generate project_name
 ```
 
-Modify an OpenAPI specification with natural language input:
+- Modify an existing OpenAPI specification using natural language:
 
 ```bash
-spec-pilot --nlp "Add a GET endpoint /users that returns a list of users"
+spec_pilot --nlp "Add a new endpoint called 'get_users' with a GET method"
 ```
 
-### Python Package Usage
+- Validate an OpenAPI specification file:
 
-You can also use Spec-Pilot as a Python package in your own projects:
+```bash
+spec_pilot --validate spec_file
+```
+
+- Create a new OpenAPI asset from a template:
+
+```bash
+spec_pilot --create template asset_name output_path
+```
+
+## Python Package Usage
+
+You can also use Spec-Pilot as a Python package in your projects. Here's an example of how to use it:
 
 ```python
-from spec_pilot.generator import init_project, generate_openapi_spec
-from spec_pilot.spec_parser import process_natural_language_input
+from spec_pilot import init_project, generate_openapi_spec, process_natural_language_input, vacuum, render_template
 
 # Initialize a new OpenAPI project
 init_project("project_name")
 
-# Generate the OpenAPI specification for an existing project
+# Generate the OpenAPI specification for a specific project
 generate_openapi_spec("project_name")
 
-# Modify an OpenAPI specification with natural language input
-with open("openapi_spec.json", "r") as f:
-    openapi_spec = json.load(f)
+# Modify an existing OpenAPI specification using natural language
+modified_openapi_spec = process_natural_language_input("Add a new endpoint called 'get_users' with a GET method", openapi_spec)
 
-modified_openapi_spec = process_natural_language_input("Add a GET endpoint /users that returns a list of users", openapi_spec)
+# Validate an OpenAPI specification file
+vacuum(["validate", "spec_file"])
+
+# Create a new OpenAPI asset from a template
+render_template("template", "asset_name", "output_path")
 ```
+
+## Limitations of NLP Functionality
+
+Spec-Pilot's NLP functionality is currently limited and may not understand all possible natural language inputs. It can handle basic operations such as adding, updating, and removing endpoints, methods, and parameters. However, it might not handle complex operations or understand all possible variations of natural language expressions.
+
+## Roadmap
+
+To improve the NLP functionality and make Spec-Pilot more complete, we plan to:
+
+1. Expand the range of natural language expressions that can be understood by the tool.
+2. Add support for more complex operations, such as modifying response schemas and security settings.
+3. Enhance error handling and provide better feedback to users when their input cannot be understood or processed.
+4. Integrate with more advanced NLP libraries or services to improve the overall performance and accuracy of the tool.
+
+We encourage users to provide feedback and contribute to the development of Spec-Pilot to make it more robust and feature-rich.
 
 ## License
 
