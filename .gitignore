@@ -1,8 +1,7 @@
-.vscode
-__pycache__/
-/src/spec_pilot
-.venv
-build/
-dist/
-*.egg-info/
 .idea
+.venv
+build
+dist
+*.egg-info
+__pycache__
+src/spec_pilot
