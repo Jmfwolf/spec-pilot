@@ -1,71 +1,102 @@
-# OpenAPI Spec Generator
+# Spec-Pilot
 
-OpenAPI Spec Generator is a Python script that helps you generate a valid and working OpenAPI specification from various OpenAPI components, including schemas, paths, parameters, responses, tags, servers, contacts, and licenses. The script leverages the pystache library for template rendering and supports both OpenAPI v2.0 and v3.0.
+Spec-Pilot is a command-line tool and Python package that helps generate, modify, and validate OpenAPI specifications using natural language processing (NLP). It simplifies the creation and management of OpenAPI projects, making it more accessible to developers and non-developers alike.
 
 ## Features
 
-- Initialize an OpenAPI project with the required directory structure
-- Generate OpenAPI components using customizable templates
-- Combine and generate a complete OpenAPI specification from the generated components
+- Initialize new OpenAPI projects
+- Generate OpenAPI specifications
+- Modify OpenAPI specifications using natural language
+- Validate OpenAPI specifications
+- Create OpenAPI assets from templates
 
-## Requirements
+## Installation
 
-    Python 3.x
-    PyYAML
-    pystache
+You can install Spec-Pilot using pip:
 
-You can install these libraries using the following pip command:
-
-```sh
-pip install PyYAML pystache
+```bash
+pip install spec_pilot
 ```
 
-## Usage
+After installing Spec-Pilot, you also need to download the spaCy language model:
 
-Import the script into your project and call the init_project() function to create a new OpenAPI project directory with the required structure:
-
-```python
-
-from openapi_spec_generator import init_project
-
-project_name = "my_project"
-init_project(project_name)
+```bash
+python -m spacy download en_core_web_sm
 ```
-Use the provided functions to generate individual OpenAPI components using customized context data and store them in the corresponding directories in the project folder:
 
+## CLI Usage
 
-```python
+To use Spec-Pilot as a command-line tool, run the following commands:
 
-from openapi_spec_generator import generate_schema, generate_path_object, generate_parameter, generate_info, generate_contact, generate_license, generate_response, generate_server, generate_tag
+- Initialize a new OpenAPI project:
 
+```bash
+spec_pilot --init project_name
+```
+
+- Generate the OpenAPI specification for a specific project:
+
+```bash
+spec_pilot --generate project_name
+```
+
+- Modify an existing OpenAPI specification using natural language:
+
+```bash
+spec_pilot --nlp "Add a new endpoint called 'get_users' with a GET method"
+```
+
+- Validate an OpenAPI specification file:
+
+```bash
+spec_pilot --validate spec_file
+```
+
+- Create a new OpenAPI asset from a template:
+
+```bash
+spec_pilot --create template asset_name output_path
 ```
 ## Generate and save your OpenAPI components using the corresponding functions
 
-Finally, call the generate_openapi_spec() function to generate the complete OpenAPI specification from the generated components:
+## Python Package Usage
+
+You can also use Spec-Pilot as a Python package in your projects. Here's an example of how to use it:
 
 ```python
+from spec_pilot import init_project, generate_openapi_spec, process_natural_language_input, vacuum, render_template
 
-from openapi_spec_generator import generate_openapi_spec
+# Initialize a new OpenAPI project
+init_project("project_name")
 
-generate_openapi_spec(project_name, version='v3.0', output_file='openapi_spec.yaml')
+# Generate the OpenAPI specification for a specific project
+generate_openapi_spec("project_name")
+
+# Modify an existing OpenAPI specification using natural language
+modified_openapi_spec = process_natural_language_input("Add a new endpoint called 'get_users' with a GET method", openapi_spec)
+
+# Validate an OpenAPI specification file
+vacuum(["validate", "spec_file"])
+
+# Create a new OpenAPI asset from a template
+render_template("template", "asset_name", "output_path")
 ```
 
-## Demo
+## Limitations of NLP Functionality
 
-A demo() function is provided in the script to demonstrate how to use the OpenAPI Spec Generator. You can run the demo by simply calling the function:
+Spec-Pilot's NLP functionality is currently limited and may not understand all possible natural language inputs. It can handle basic operations such as adding, updating, and removing endpoints, methods, and parameters. However, it might not handle complex operations or understand all possible variations of natural language expressions.
 
-```python
+## Roadmap
 
-from openapi_spec_generator import demo
+To improve the NLP functionality and make Spec-Pilot more complete, we plan to:
 
-demo()
-```
-This will create a sample OpenAPI project, generate some components, and output an OpenAPI specification file named openapi_spec.yaml.
+1. Expand the range of natural language expressions that can be understood by the tool.
+2. Add support for more complex operations, such as modifying response schemas and security settings.
+3. Enhance error handling and provide better feedback to users when their input cannot be understood or processed.
+4. Integrate with more advanced NLP libraries or services to improve the overall performance and accuracy of the tool.
 
-## Contributing
-
-We welcome contributions to improve and extend OAS Maker. To contribute, please fork the repository, make your changes, and submit a pull request.
+We encourage users to provide feedback and contribute to the development of Spec-Pilot to make it more robust and feature-rich.
 
 ## License
 
-OAS Maker is released under the GNU GENERAL PUBLIC LICENSE. See the LICENSE file for more information.
+Spec-Pilot is released under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).

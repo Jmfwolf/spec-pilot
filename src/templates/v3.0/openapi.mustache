@@ -7,9 +7,9 @@ servers:
 {{/servers}}
 paths:
   /{{path}}:
-    {{#httpMethods}}
-    {{> httpmethod}}
-    {{/httpMethods}}
+      {{#httpMethods}}
+      {{> httpmethod}}
+      {{/httpMethods}}
 components:
   securitySchemes:
   {{#securitySchemes}}
@@ -30,18 +30,15 @@ components:
       {{#required}}
         - {{propertyName}}
       {{/required}}
-components:
   parameters:
   {{#parameters}}
     {{parameterName}}:
       {{> parameter_object}}
   {{/parameters}}
-components:
   mediaTypes:
   {{#mediaTypes}}
     {{> media_type}}
   {{/mediaTypes}}
-components:
   errors:
   {{#errors}}
     {{name}}:
