@@ -57,6 +57,7 @@ spec_pilot --validate spec_file
 ```bash
 spec_pilot --create template asset_name output_path
 ```
+## Generate and save your OpenAPI components using the corresponding functions
 
 ## Python Package Usage
 
