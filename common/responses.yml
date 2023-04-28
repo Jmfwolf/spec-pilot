@@ -1,53 +1,139 @@
-responses:
-  BadRequest:
-    description: Bad request
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: integer
-              example: 400
-            message:
-              type: string
-              example: Bad request
-  NotFound:
-    description: Not found
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: integer
-              example: 404
-            message:
-              type: string
-              example: Not found
-  Unauthorized:
-    description: Unauthorized
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: integer
-              example: 401
-            message:
-              type: string
-              example: Unauthorized
-  Forbidden:
-    description: Forbidden
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: integer
-              example: 403
-            message:
-              type: string
-              example: Forbidden
+'400':
+  description: Bad Request
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 400
+          message:
+            type: string
+            example: Bad Request
+
+'401':
+  description: Unauthorized
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 401
+          message:
+            type: string
+            example: Unauthorized
+
+'403':
+  description: Forbidden
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 403
+          message:
+            type: string
+            example: Forbidden
+
+'404':
+  description: Not Found
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 404
+          message:
+            type: string
+            example: Not Found
+
+'405':
+  description: Method Not Allowed
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 405
+          message:
+            type: string
+            example: Method Not Allowed
+
+'406':
+  description: Not Acceptable
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 406
+          message:
+            type: string
+            example: Not Acceptable
+
+'500':
+  description: Internal Server Error
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 500
+          message:
+            type: string
+            example: Internal Server Error
+
+'501':
+  description: Not Implemented
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 501
+          message:
+            type: string
+            example: Not Implemented
+
+'502':
+  description: Bad Gateway
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 502
+          message:
+            type: string
+            example: Bad Gateway
+
+'503':
+  description: Service Unavailable
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          code:
+            type: integer
+            example: 503
+          message:
+            type: string
+            example: Service Unavailable
