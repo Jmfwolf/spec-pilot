@@ -27,7 +27,7 @@ class Validator:
 
     def vacuum(self, args):
         try:
-            return subprocess.check_call(["vacuum"] + args)
+            return subprocess.check_call(["vacuum"] + args[2:])
         except subprocess.CalledProcessError as e:
             sys.exit(f"Error running vacuum: {e}")
 

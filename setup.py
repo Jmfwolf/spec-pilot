@@ -1,29 +1,27 @@
-import os
 from setuptools import setup, find_packages
-from setuptools.command.install import install
 
-class PostInstallCommand(install):
-    def run(self):
-        install.run(self)
-        self.execute(lambda: self.download_spacy_model(), [])
-
-    @staticmethod
-    def download_spacy_model():
-        os.system("python -m spacy download en_core_web_sm")
+with open("requirements.txt", "r", encoding="utf-8") as f:
+    requirements = f.read().splitlines()
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
-
+    
 setup(
-    name="spec_pilot",
-    version="0.2.1",
-    author="jmfwolf",
-    author_email="jmfwolf@hacksomniac.com",
-    description="A tool to generate OpenAPI specifications using natural language",
+    name="spec-pilot",
+    version="0.3.0",
+    description="A command-line tool for generating and managing OpenAPI specifications",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    author="jmfwolf",
+    author_email="jmfwolf@hacksomniac.com",
     url="https://github.com/jmfwolf/spec-pilot",
     packages=find_packages(),
+    install_requires=requirements,
+    entry_points={
+        "console_scripts": [
+            "spec-pilot=spec_pilot.main:main",
+        ],
+    },
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
@@ -37,15 +35,4 @@ setup(
         "Programming Language :: Python :: 3.10",
     ],
     python_requires='>=3.6',
-    install_requires=[
-        "spacy>=3.5.2",
-        "PyYAML>=6.0",
-        "pystache>=0.6.0",
-],
-    entry_points={
-        'console_scripts': [
-            'spec-pilot=spec_pilot:main',
-        ],
-    },
-    cmdclass={"install": PostInstallCommand},
 )

@@ -1,4 +1,4 @@
-import json
+import yaml
 from language_processor import LanguageProcessor
 
 class Generator:
@@ -24,7 +24,6 @@ class Generator:
         # Add support for other component types as needed
         return component_spec
 
-
     def generate_spec(self):
         parsed_components = self.language_processor.process(self.description)
         openapi_spec = {"openapi": "3.0.0", "info": {}, "paths": {}, "components": {"schemas": {}}}
@@ -41,4 +40,4 @@ class Generator:
                 schema_name = component_info["name"]
                 openapi_spec["components"]["schemas"][schema_name] = self._generate_openapi_component(component_type, component_info)
             # Add support for other component types as needed
-        return json.dumps(openapi_spec, indent=2)
+        return yaml.dump(openapi_spec, sort_keys=False)
