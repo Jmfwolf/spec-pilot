@@ -67,15 +67,6 @@ We welcome contributions to Spec Pilot! If you'd like to contribute, please foll
 
 Please follow the coding standards and guidelines established in the project, and make sure to include tests and documentation for any new features or changes.
 
-## Roadmap
-
-To improve the NLP functionality and make Spec-Pilot more complete, we plan to:
-
-1. Expand the range of natural language expressions that can be understood by the tool.
-2. Add support for more complex operations, such as modifying response schemas and security settings.
-3. Enhance error handling and provide better feedback to users when their input cannot be understood or processed.
-4. Integrate with more advanced NLP libraries or services to improve the overall performance and accuracy of the tool.
-
 We encourage users to provide feedback and contribute to the development of Spec-Pilot to make it more robust and feature-rich.
 
 ## License
