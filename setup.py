@@ -19,7 +19,7 @@ setup(
     install_requires=requirements,
     entry_points={
         "console_scripts": [
-            "spec-pilo=spec_pilot.main:main",
+            "spec-pilot=spec_pilot.main:main",
         ],
     },
     classifiers=[
