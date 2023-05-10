@@ -6,3 +6,4 @@ dist
 __pycache__
 src/spec_pilot
 .vscode
+.spec
