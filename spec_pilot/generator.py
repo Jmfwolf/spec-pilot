@@ -1,5 +1,5 @@
 import yaml
-from language_processor import LanguageProcessor
+from .language_processor import LanguageProcessor
 
 class Generator:
     def __init__(self, description):

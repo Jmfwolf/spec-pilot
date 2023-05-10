@@ -1,9 +1,9 @@
 import argparse
 import yaml
 import os
-from prompt_builder import PromptBuilder
-from generator import Generator
-from validator import Validator
+from .prompt_builder import PromptBuilder
+from .generator import Generator
+from .validator import Validator
 
 def create_project_structure(project_name):
     # create a project directory
