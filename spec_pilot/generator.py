@@ -10,7 +10,7 @@ class Generator:
         component_spec = {}
         if component_type == "path":
             component_spec["summary"] = component_info["summary"]
-            component_spec["operationId"] = component_info["operationId"]
+            component_spec["operationId"] = component_info.get("operationId", "") # Add default value
             if "parameters" in component_info:
                 component_spec["parameters"] = component_info["parameters"]
             if "responses" in component_info:
@@ -23,6 +23,7 @@ class Generator:
                 component_spec["required"] = component_info["required"]
         # Add support for other component types as needed
         return component_spec
+
 
     def generate_spec(self):
         parsed_components = self.language_processor.process(self.description)
