@@ -1,99 +1,71 @@
-# Spec-Pilot
+# Spec Pilot
 
-Spec-Pilot is a command-line tool and Python package that helps generate, modify, and validate OpenAPI specifications using natural language processing (NLP). It simplifies the creation and management of OpenAPI projects, making it more accessible to developers and non-developers alike.
+Spec Pilot is a command-line tool for generating and managing OpenAPI specifications. The tool simplifies the process of creating OpenAPI specs by providing a user-friendly interface for inputting required information, and generates the final spec in YAML format.
 
 ## Features
 
-- Initialize new OpenAPI projects
-- Generate OpenAPI specifications
-- Modify OpenAPI specifications using natural language
-- Validate OpenAPI specifications
-- Create OpenAPI assets from templates
+- Project initialization with predefined directory structure
+- OpenAPI Spec Wizard for user-friendly input of spec components
+- Validation of OpenAPI specification YAML files
 
 ## Installation
 
-You can install Spec-Pilot using pip:
+To install Spec Pilot, clone this repository and run the `setup.py` script:
 
-```bash
-pip install spec_pilot
+```sh
+git clone https://github.com/jmfwolf/spec-pilot.git
+cd spec-pilot
+python setup.py install
 ```
 
-After installing Spec-Pilot, you also need to download the spaCy language model:
+from pypi:
 
-```bash
-python -m spacy download en_core_web_sm
+```sh
+pip install spec-pilot
 ```
 
-## CLI Usage
+## Usage
 
-To use Spec-Pilot as a command-line tool, run the following commands:
+### Initializing a new project
 
-- Initialize a new OpenAPI project:
+To create a new project with a predefined directory structure, run the following command:
 
-```bash
-spec_pilot --init project_name
+```sh
+spec-pilot --init project_name
 ```
 
-- Generate the OpenAPI specification for a specific project:
+This will create a new directory with the given project name and subdirectories for schemas, resources, responses, and parameters.
 
-```bash
-spec_pilot --generate project_name
+### Running the OpenAPI Spec Wizard
+
+To generate an OpenAPI spec using the Spec Wizard, run the following command:
+
+```
+spec-pilot --wizard
 ```
 
-- Modify an existing OpenAPI specification using natural language:
+The Spec Wizard will prompt you for information about the API, such as endpoints, parameters, and responses. It will then generate an OpenAPI specification YAML file with the provided information.
 
-```bash
-spec_pilot --nlp "Add a new endpoint called 'get_users' with a GET method"
+### Validating an OpenAPI specification
+
+To validate an OpenAPI specification YAML file, run the following command:
+
+```
+spec-pilot --validate path/to/openapi.yaml
 ```
 
-- Validate an OpenAPI specification file:
+The tool will check the validity of the YAML file and output any errors found during the validation process.
 
-```bash
-spec_pilot --validate spec_file
-```
+## Contributing
 
-- Create a new OpenAPI asset from a template:
+We welcome contributions to Spec Pilot! If you'd like to contribute, please follow these steps:
 
-```bash
-spec_pilot --create template asset_name output_path
-```
-## Generate and save your OpenAPI components using the corresponding functions
+1. Fork the repository
+2. Create a new branch for your changes
+3. Make changes and commit them to your branch
+4. Submit a pull request with a detailed description of your changes
 
-## Python Package Usage
-
-You can also use Spec-Pilot as a Python package in your projects. Here's an example of how to use it:
-
-```python
-from spec_pilot import init_project, generate_openapi_spec, process_natural_language_input, vacuum, render_template
-
-# Initialize a new OpenAPI project
-init_project("project_name")
-
-# Generate the OpenAPI specification for a specific project
-generate_openapi_spec("project_name")
-
-# Modify an existing OpenAPI specification using natural language
-modified_openapi_spec = process_natural_language_input("Add a new endpoint called 'get_users' with a GET method", openapi_spec)
-
-# Validate an OpenAPI specification file
-vacuum(["validate", "spec_file"])
-
-# Create a new OpenAPI asset from a template
-render_template("template", "asset_name", "output_path")
-```
-
-## Limitations of NLP Functionality
-
-Spec-Pilot's NLP functionality is currently limited and may not understand all possible natural language inputs. It can handle basic operations such as adding, updating, and removing endpoints, methods, and parameters. However, it might not handle complex operations or understand all possible variations of natural language expressions.
-
-## Roadmap
-
-To improve the NLP functionality and make Spec-Pilot more complete, we plan to:
-
-1. Expand the range of natural language expressions that can be understood by the tool.
-2. Add support for more complex operations, such as modifying response schemas and security settings.
-3. Enhance error handling and provide better feedback to users when their input cannot be understood or processed.
-4. Integrate with more advanced NLP libraries or services to improve the overall performance and accuracy of the tool.
+Please follow the coding standards and guidelines established in the project, and make sure to include tests and documentation for any new features or changes.
 
 We encourage users to provide feedback and contribute to the development of Spec-Pilot to make it more robust and feature-rich.
 
