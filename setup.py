@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     
 setup(
     name="spec-pilot",
-    version="0.3.2",
+    version="0.3.3",
     description="A command-line tool for generating and managing OpenAPI specifications",
     long_description=long_description,
     long_description_content_type="text/markdown",
